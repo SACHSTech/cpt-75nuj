@@ -62,7 +62,29 @@ public class ChartGenerator {
 
         chart = new LineChart(xAxis, yAxis, lineChartData);
         return chart;
-    }    
+    }   
+    
+    
+    public LineChart.Series<Integer, Double> pointsSeries(int startYear, int endYear) {
+
+    }
+    
+    public LineChart.Series<Integer, Double> assistsSeries(int startYear, int endYear) {
+    
+    }
+    
+    public LineChart.Series<Integer, Double> reboundsSeries(int startYear, int endYear) {
+    
+    }
+    
+    public LineChart.Series<Integer, Double> winsharesSeries(int startYear, int endYear) {
+    
+    }
+    
+    public Parent createPieGraph (int startYear, int endYear) {
+    
+    }
+    
  
   
 }
