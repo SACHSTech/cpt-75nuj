@@ -21,8 +21,9 @@ public class App extends Application {
     ChartGenerator chart = new ChartGenerator();
 
     int startRank = 1;
-    int endRank = 500;
+    int endRank = 10;
     boolean showLineChart = true;
+    
 
     /**
      * Overriding JavaFX Application Class method to run wanted script
@@ -52,13 +53,7 @@ public class App extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-        CSVScraper a;
-        try {
-            a = new CSVScraper();
-            System.out.println(a.getCell(4, 4));
-        } catch(Exception e) {
-            
-        }
+       
         
         
     }

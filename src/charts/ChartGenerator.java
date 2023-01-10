@@ -57,13 +57,13 @@ public class ChartGenerator {
         ObservableList<XYChart.Series<Integer,Double>> lineChartData =
             FXCollections.observableArrayList();
 
-        /*
+        showPoints = true;
         //add lines depending on selected stats
         if(showPoints) {
             lineChartData.add(pointsSeries(startRank, endRank));
         } if(showAssists) {
             lineChartData.add(assistsSeries(startRank, endRank));
-        } if(showRebounds) {
+        }/* if(showRebounds) {
             lineChartData.add(reboundsSeries(startRank, endRank));
         } if(showWinShares) {
             lineChartData.add(winshareSeries(startRank, endRank));
@@ -86,11 +86,17 @@ public class ChartGenerator {
         ObservableList<XYChart.Data<Integer, Double>> pointsData = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            pointsData.add(new XYChart.Data<>(i, ))
+            pointsData.add(new XYChart.Data<>(i, Double.parseDouble(scraper.getCell(i, 6))));
         }
+
+        LineChart.Series<Integer, Double> points = new LineChart.Series<>("Points Per Game", pointsData);
+
+        return points;
     }
 
 
+
+    
     
     
 
