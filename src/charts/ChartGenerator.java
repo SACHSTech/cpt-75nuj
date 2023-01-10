@@ -12,7 +12,9 @@ import javafx.scene.chart.NumberAxis;
 import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import java.io.*;
-import java.util.*;  
+import java.util.*;
+
+import data.CSVScraper;  
  
 /**
  * A line chart demonstrating a CategoryAxis implementation.
@@ -23,6 +25,11 @@ public class ChartGenerator {
     private boolean showAssists;
     private boolean showRebounds;
     private boolean showWinShares;
+    private CSVScraper scraper;
+
+    public ChartGenerator () {
+        this.scraper = new CSVScraper();
+    }
 
 
     /**
@@ -33,8 +40,8 @@ public class ChartGenerator {
      */
     public Parent createLineChart(int startRank, int endRank) {
         //Creates axis for graph
-        NumberAxis xAxis = new NumberAxis("Values for X-Axis", 0, 3, 1);
-        NumberAxis yAxis = new NumberAxis("Values for Y-Axis", 0, 3, 1);
+        NumberAxis xAxis = new NumberAxis("Rank", startRank, endRank, 1);
+        NumberAxis yAxis = new NumberAxis("Value", 0, 100, 1);
 
 
         ObservableList<XYChart.Data<Integer, Double>> dataset1 = FXCollections.observableArrayList();
@@ -46,12 +53,11 @@ public class ChartGenerator {
 
         LineChart.Series<Integer, Double> series1 = new LineChart.Series<>("Series 1", dataset1);
 
-        xAxis = new NumberAxis("Values for X-Axis", 0, 3, 1);
-        yAxis = new NumberAxis("Values for Y-Axis", 0, 3, 1);
 
         ObservableList<XYChart.Series<Integer,Double>> lineChartData =
             FXCollections.observableArrayList();
 
+        /*
         //add lines depending on selected stats
         if(showPoints) {
             lineChartData.add(pointsSeries(startRank, endRank));
@@ -63,14 +69,13 @@ public class ChartGenerator {
             lineChartData.add(winshareSeries(startRank, endRank));
         }
 
+        */
+
         //create and return new LineChart object
         LineChart chart = new LineChart(xAxis, yAxis, lineChartData);
         return chart;
-    }   
+    }  
     
-
-    
-
     /**
      * Creates a LineChart Series for Points
      * @param startRank starting rank in series
@@ -78,48 +83,18 @@ public class ChartGenerator {
      * @return LineChart.Series<Integer, Double> object
      */
     public LineChart.Series<Integer, Double> pointsSeries(int startRank, int endRank) {
+        ObservableList<XYChart.Data<Integer, Double>> pointsData = FXCollections.observableArrayList();
 
+        for(int i = startRank; i <= endRank; i++) {
+            pointsData.add(new XYChart.Data<>(i, ))
+        }
     }
 
-    /**
-     * Creates a LineChart Series for assists
-    * @param startRank starting rank in series
-     * @param endRank ending rank in series
-     * @return LineChart.Series<Integer, Double> object
-     */
-    public LineChart.Series<Integer, Double> assistsSeries(int startRank, int endRank) {
 
-    }
-
-    /**
-     * Creates a LineChart Series for rebounds
-     * @param startRank starting rank in series
-     * @param endRank ending rank in series
-     * @return LineChart.Series<Integer, Double> object
-     */
-    public LineChart.Series<Integer, Double> reboundsSeries(int startRank, int endRank) {
-
-    }
-
-    /**
-     * Creates a LineChart Series for win shares
-     * @param startRank starting rank in series
-     * @param endRank ending rank in series
-     * @return LineChart.Series<Integer, Double> object
-     */
-    public LineChart.Series<Integer, Double> winshareSeries(int startRank, int endRank) {
-
-    }
     
-    /**
-     * ScatterPlot Graphs with given Parameters
-     * @param startRank
-     * @param endRank
-     * @return LineChart.Series<Integer, Double> object
-     */    
-    public Parent createScatterPlot (int startRank, int endRank) {
     
-    }
+
+  
 
     
     

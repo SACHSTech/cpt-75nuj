@@ -5,33 +5,38 @@ import java.io.*;
 import java.util.*;
 
 
-public class CSVScraper {
+public class CSVScraper  {
     List<List<String>> data;
 
-    public CSVScraper() throws IOException{
+    public CSVScraper() {
          //create buffered reader for stats file
-         BufferedReader br = new BufferedReader(new FileReader("src\\data\\stats.csv"));
-         String line =  null;
-
-         //ArrayList used for containing data
-         List<List<String>> data = new ArrayList<List<String>>();
-
-         //while there are more rows to go through
-         while((line = br.readLine()) != null){
-            //split the given line by the commas that separate them
-            String[] str = line.split(",");
-
-            //convert array into an arraylist
-            List<String> arrayOne = new ArrayList<>();
-            for(int i = 0; i < str.length; i++) {
-                arrayOne.add(str[i]);
+         try {
+            BufferedReader br = new BufferedReader(new FileReader("src\\data\\stats.csv"));
+            String line =  null;
+   
+            //ArrayList used for containing data
+            List<List<String>> data = new ArrayList<List<String>>();
+   
+            //while there are more rows to go through
+            while((line = br.readLine()) != null){
+               //split the given line by the commas that separate them
+               String[] str = line.split(",");
+   
+               //convert array into an arraylist
+               List<String> arrayOne = new ArrayList<>();
+               for(int i = 0; i < str.length; i++) {
+                   arrayOne.add(str[i]);
+               }
+   
+               //add arraylist into arraylist
+               data.add(arrayOne);
             }
-
-            //add arraylist into arraylist
-            data.add(arrayOne);
+   
+            this.data = data;
+         } catch (Exception e) {
+            
          }
-
-         this.data = data;
+         
         
    }
 
@@ -58,6 +63,8 @@ public class CSVScraper {
    }
 
    */
+
+ 
 
    
 }

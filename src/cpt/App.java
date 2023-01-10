@@ -2,6 +2,7 @@ package cpt;
  
  
 import charts.ChartGenerator;
+import data.CSVScraper;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,8 +20,8 @@ import javafx.scene.control.Button;
 public class App extends Application {
     ChartGenerator chart = new ChartGenerator();
 
-    int startRank = 1955;
-    int endRank = 2021;
+    int startRank = 1;
+    int endRank = 500;
     boolean showLineChart = true;
 
     /**
@@ -37,7 +38,7 @@ public class App extends Application {
             layout.getChildren().add(chart.createLineChart(startRank, endRank));
         } else {
             //adds created piechart to existing stackpane
-            layout.getChildren().add(chart.createPieGraph(startRank, endRank));
+            //layout.getChildren().add(chart.createPieGraph(startRank, endRank));
         }
         
         //creates a scene including creating stackpane, then puts it on the window stage
@@ -51,5 +52,14 @@ public class App extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        CSVScraper a;
+        try {
+            a = new CSVScraper();
+            System.out.println(a.getCell(4, 4));
+        } catch(Exception e) {
+            
+        }
+        
+        
     }
 }
