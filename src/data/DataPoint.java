@@ -101,10 +101,11 @@ public class DataPoint {
         return this.toYear;
     }
 
-    
+    public int getGamesPlayed() {
+        return this.gamesPlayed;
+    }
 
-    
-
+   
     
 
 
