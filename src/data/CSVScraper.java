@@ -40,6 +40,10 @@ public class CSVScraper  {
         
    }
 
+   public DataPoint get(int i) {
+      return data.get(i);
+   }
+
    
    
  
