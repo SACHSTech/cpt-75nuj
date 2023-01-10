@@ -89,7 +89,12 @@ public class DataPoint {
         return this.rank;
     }
 
-  
+    public String getPlayerName() {
+        return this.playerName;
+    }
+
+   
+
     
 
 
