@@ -6,7 +6,7 @@ import java.util.*;
 
 
 public class CSVScraper  {
-    List<List<String>> data;
+    List<DataPoint> data;
 
     public CSVScraper() {
          //create buffered reader for stats file
@@ -29,7 +29,7 @@ public class CSVScraper  {
                }
    
                //add arraylist into arraylist
-               data.add(arrayOne);
+               data.add(datapoint);
             }
    
             this.data = data;
@@ -49,7 +49,8 @@ public class CSVScraper  {
    public String getCell(int i, int j) {
       return data.get(i).get(j);
    }
-    
+   
+ 
 
    
 }
