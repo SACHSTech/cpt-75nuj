@@ -28,15 +28,19 @@ public class App extends Application {
      */
 
     @Override public void start(Stage primaryStage) throws Exception {
+        //Initializes StackPane object
         StackPane layout = new StackPane();
 
+        //User has toggle which indicates whether they want to display a line or pie chart
         if(showLineChart) {
+            //adds created linechart to existing stackpane
             layout.getChildren().add(chart.createLineChart(startRank, endRank));
         } else {
+            //adds created piechart to existing stackpane
             layout.getChildren().add(chart.createPieGraph(startRank, endRank));
         }
         
-
+        //creates a scene including creating stackpane, then puts it on the window stage
         Scene scene = new Scene(layout);
         primaryStage.setScene(scene);
         primaryStage.show();

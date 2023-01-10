@@ -1,4 +1,3 @@
-/* ....Show License.... */
 package charts;
  
  
@@ -24,15 +23,18 @@ public class ChartGenerator {
     private boolean showAssists;
     private boolean showRebounds;
     private boolean showWinShares;
-    private LineChart chart;
-    private NumberAxis xAxis;
-    private NumberAxis yAxis;
 
 
-
-    public Parent createLineChart(int startYear, int endYear) {
-        xAxis = new NumberAxis("Values for X-Axis", 0, 3, 1);
-        yAxis = new NumberAxis("Values for Y-Axis", 0, 3, 1);
+    /**
+     * Creates a Linechart based of ranks the user wants to see and the stats chosen
+     * @param startRank starting rank plotted on graph
+     * @param endRank ending rank plotted on graph
+     * @return LineChart Object
+     */
+    public Parent createLineChart(int startRank, int endRank) {
+        //Creates axis for graph
+        NumberAxis xAxis = new NumberAxis("Values for X-Axis", 0, 3, 1);
+        NumberAxis yAxis = new NumberAxis("Values for Y-Axis", 0, 3, 1);
 
 
         ObservableList<XYChart.Data<Integer, Double>> dataset1 = FXCollections.observableArrayList();
@@ -50,40 +52,76 @@ public class ChartGenerator {
         ObservableList<XYChart.Series<Integer,Double>> lineChartData =
             FXCollections.observableArrayList();
 
+        //add lines depending on selected stats
         if(showPoints) {
-            lineChartData.add(pointsSeries(startYear, endYear));
+            lineChartData.add(pointsSeries(startRank, endRank));
         } if(showAssists) {
-            lineChartData.add(assistsSeries(startYear, endYear));
+            lineChartData.add(assistsSeries(startRank, endRank));
         } if(showRebounds) {
-            lineChartData.add(reboundsSeries(startYear, endYear));
+            lineChartData.add(reboundsSeries(startRank, endRank));
         } if(showWinShares) {
-            lineChartData.add(winsharesSeries(startYear, endYear));
+            lineChartData.add(winshareSeries(startRank, endRank));
         }
 
-        chart = new LineChart(xAxis, yAxis, lineChartData);
+        //create and return new LineChart object
+        LineChart chart = new LineChart(xAxis, yAxis, lineChartData);
         return chart;
     }   
     
+
     
-    public LineChart.Series<Integer, Double> pointsSeries(int startYear, int endYear) {
+
+    /**
+     * Creates a LineChart Series for Points
+     * @param startRank starting rank in series
+     * @param endRank ending rank in series
+     * @return LineChart.Series<Integer, Double> object
+     */
+    public LineChart.Series<Integer, Double> pointsSeries(int startRank, int endRank) {
+
+    }
+
+    /**
+     * Creates a LineChart Series for assists
+    * @param startRank starting rank in series
+     * @param endRank ending rank in series
+     * @return LineChart.Series<Integer, Double> object
+     */
+    public LineChart.Series<Integer, Double> assistsSeries(int startRank, int endRank) {
+
+    }
+
+    /**
+     * Creates a LineChart Series for rebounds
+     * @param startRank starting rank in series
+     * @param endRank ending rank in series
+     * @return LineChart.Series<Integer, Double> object
+     */
+    public LineChart.Series<Integer, Double> reboundsSeries(int startRank, int endRank) {
+
+    }
+
+    /**
+     * Creates a LineChart Series for win shares
+     * @param startRank starting rank in series
+     * @param endRank ending rank in series
+     * @return LineChart.Series<Integer, Double> object
+     */
+    public LineChart.Series<Integer, Double> winshareSeries(int startRank, int endRank) {
 
     }
     
-    public LineChart.Series<Integer, Double> assistsSeries(int startYear, int endYear) {
+    /**
+     * ScatterPlot Graphs with given Parameters
+     * @param startRank
+     * @param endRank
+     * @return LineChart.Series<Integer, Double> object
+     */    
+    public Parent createScatterPlot (int startRank, int endRank) {
     
     }
+
     
-    public LineChart.Series<Integer, Double> reboundsSeries(int startYear, int endYear) {
-    
-    }
-    
-    public LineChart.Series<Integer, Double> winsharesSeries(int startYear, int endYear) {
-    
-    }
-    
-    public Parent createPieGraph (int startYear, int endYear) {
-    
-    }
     
  
   
