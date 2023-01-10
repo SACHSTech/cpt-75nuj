@@ -94,7 +94,24 @@ public class ChartGenerator {
         return points;
     }
 
+    
+    /**
+     * Creates a LineChart Series for assists
+    * @param startRank starting rank in series
+     * @param endRank ending rank in series
+     * @return LineChart.Series<Integer, Double> object
+     */
+    public LineChart.Series<Integer, Double> assistsSeries(int startRank, int endRank) {
+        ObservableList<XYChart.Data<Integer, Double>> assistsData = FXCollections.observableArrayList();
 
+        for(int i = startRank; i <= endRank; i++) {
+            assistsData.add(new XYChart.Data<>(i, Double.parseDouble(scraper.getCell(i, 8))));
+        }
+
+        LineChart.Series<Integer, Double> assists = new LineChart.Series<>("Assists Per Game", assistsData);
+
+        return assists;
+    }
 
     
     
