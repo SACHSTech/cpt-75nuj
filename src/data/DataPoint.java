@@ -109,5 +109,13 @@ public class DataPoint {
         return this.minutesPlayed;
     }
 
-   
+    public double getPpg() {
+        return this.ppg;
+    }
+
+    
+    
+
+
+
 }
