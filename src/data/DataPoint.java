@@ -97,6 +97,14 @@ public class DataPoint {
         return this.fromYear;
     }
 
+    public int getToYear() {
+        return this.toYear;
+    }
+
+    
+
+    
+
     
 
 
