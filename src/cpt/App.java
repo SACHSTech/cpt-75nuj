@@ -1,7 +1,7 @@
 package cpt;
  
  
-import charts.ChartGenerator;
+import ChartsManagement.ChartGenerator;
 import data.CSVScraper;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -11,6 +11,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
  
@@ -32,17 +34,24 @@ public class App extends Application {
     @Override public void start(Stage primaryStage) throws Exception {
         //Initializes StackPane object
         StackPane layout = new StackPane();
+        HBox chartPane = new HBox(8);
 
         //User has toggle which indicates whether they want to display a line or pie chart
         if(showLineChart) {
             //adds created linechart to existing stackpane
-            layout.getChildren().add(chart.createLineChart(startRank, endRank));
+            chartPane.getChildren().add(chart.createLineChart(startRank, endRank));
+            
         } else {
             //adds created piechart to existing stackpane
             //layout.getChildren().add(chart.createPieGraph(startRank, endRank));
         }
+
+        chartPane.setMaxWidth(500);
+
+
         
         //creates a scene including creating stackpane, then puts it on the window stage
+        layout.getChildren().addAll(chartPane);
         Scene scene = new Scene(layout);
         primaryStage.setScene(scene);
         primaryStage.show();

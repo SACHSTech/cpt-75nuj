@@ -1,4 +1,4 @@
-package charts;
+package ChartsManagement;
  
  
 import javafx.application.Application;
@@ -27,6 +27,9 @@ public class ChartGenerator {
     private boolean showWinShares;
     private CSVScraper scraper;
 
+    /**
+     * Constructor automatically creates a CSVScraper object when created
+     */
     public ChartGenerator () {
         this.scraper = new CSVScraper();
     }
@@ -66,6 +69,24 @@ public class ChartGenerator {
 
         //create and return new LineChart object
         LineChart chart = new LineChart(xAxis, yAxis, lineChartData);
+
+
+        //Creates a title based on the selected stats
+        String title = "";
+
+        if(showPoints) {
+            title += "Points, ";
+        } if(showAssists) {
+            title += "Assists, ";
+        } if(showRebounds) {
+            title += "Rebounds, ";
+        } if(showWinShares) {
+            title += "Win Shares, ";
+        }
+
+        title += "By Rank on SLAM's 2011 Top 500 Players";
+
+        chart.setTitle(title);
         return chart;
     }  
     
@@ -143,16 +164,4 @@ public class ChartGenerator {
     }
     
  
-
-
-    
-    
-    
-
-  
-
-    
-    
- 
-  
 }
