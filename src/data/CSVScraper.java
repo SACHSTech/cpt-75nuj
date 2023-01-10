@@ -15,7 +15,7 @@ public class CSVScraper  {
             String line =  null;
    
             //ArrayList used for containing data
-            List<List<String>> data = new ArrayList<List<String>>();
+            List<DataPoint> data = new ArrayList<DataPoint>();
    
             //while there are more rows to go through
             while((line = br.readLine()) != null){
@@ -23,9 +23,9 @@ public class CSVScraper  {
                String[] str = line.split(",");
    
                //convert array into an arraylist
-               List<String> arrayOne = new ArrayList<>();
+               DataPoint datapoint = new DataPoint();
                for(int i = 0; i < str.length; i++) {
-                   arrayOne.add(str[i]);
+                   datapoint.add(str[i]);
                }
    
                //add arraylist into arraylist
