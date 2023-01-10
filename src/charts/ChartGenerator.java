@@ -138,9 +138,18 @@ public class ChartGenerator {
      * @return LineChart.Series<Integer, Double> object
      */
     public LineChart.Series<Integer, Double> winshareSeries(int startRank, int endRank) {
+        ObservableList<XYChart.Data<Integer, Double>> winshareSeries = FXCollections.observableArrayList();
 
+        for(int i = startRank; i <= endRank; i++) {
+            winshareSeries.add(new XYChart.Data<>(i, Double.parseDouble(scraper.getCell(i, 14))));
+        }
+
+        LineChart.Series<Integer, Double> winshares = new LineChart.Series<>("Rebounds Per Game", winshareSeries);
+
+        return winshares;
     }
     
+    /*
     /**
      * ScatterPlot Graphs with given Parameters
      * @param startRank
@@ -150,6 +159,8 @@ public class ChartGenerator {
     public Parent createScatterPlot (int startRank, int endRank) {
     
     }
+
+    */
 
 
     
