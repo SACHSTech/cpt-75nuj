@@ -89,33 +89,24 @@ public class DataPoint {
         return this.rank;
     }
 
-    public String getPlayerName() {
-        return this.playerName;
-    }
-
-    public int getFromYear() {
-        return this.fromYear;
-    }
-
-    public int getToYear() {
-        return this.toYear;
-    }
-
-    public int getGamesPlayed() {
-        return this.gamesPlayed;
-    }
-
-    public double getMinutesPlayed() {
-        return this.minutesPlayed;
-    }
-
     public double getPpg() {
         return this.ppg;
     }
 
-    
-    
+    public double getRpg() {
+        return this.rpg;
+    }
 
+    public double getApg() {
+        return this.apg;
+    }
+
+    public double getCareerWinShares() {
+        return this.careerWinShares;
+    }
+
+
+    
 
 
 }
