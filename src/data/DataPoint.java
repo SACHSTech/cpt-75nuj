@@ -93,7 +93,9 @@ public class DataPoint {
         return this.playerName;
     }
 
-   
+    public int getFromYear() {
+        return this.fromYear;
+    }
 
     
 
