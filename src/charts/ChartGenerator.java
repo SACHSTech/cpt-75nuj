@@ -41,23 +41,16 @@ public class ChartGenerator {
     public Parent createLineChart(int startRank, int endRank) {
         //Creates axis for graph
         NumberAxis xAxis = new NumberAxis("Rank", startRank, endRank, 1);
-        NumberAxis yAxis = new NumberAxis("Value", 0, 100, 1);
-
-
-        ObservableList<XYChart.Data<Integer, Double>> dataset1 = FXCollections.observableArrayList();
-
-        dataset1.add(new XYChart.Data<>(0, 1.0));
-        dataset1.add(new XYChart.Data<>(1, 1.4));
-        dataset1.add(new XYChart.Data<>(2, 1.9));
-        dataset1.add(new XYChart.Data<>(2, 2.3));
-
-        LineChart.Series<Integer, Double> series1 = new LineChart.Series<>("Series 1", dataset1);
+        NumberAxis yAxis = new NumberAxis("Value", 0, 300, 1);
 
 
         ObservableList<XYChart.Series<Integer,Double>> lineChartData =
             FXCollections.observableArrayList();
 
         showPoints = true;
+        showAssists = true;
+        showRebounds = true;
+        showWinShares = true;
         //add lines depending on selected stats
         if(showPoints) {
             lineChartData.add(pointsSeries(startRank, endRank));
@@ -123,7 +116,7 @@ public class ChartGenerator {
         ObservableList<XYChart.Data<Integer, Double>> reboundsData = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            reboundsData.add(new XYChart.Data<>(i, Double.parseDouble(scraper.getCell(i, 8))));
+            reboundsData.add(new XYChart.Data<>(i, Double.parseDouble(scraper.getCell(i, 7))));
         }
 
         LineChart.Series<Integer, Double> rebounds = new LineChart.Series<>("Rebounds Per Game", reboundsData);
@@ -144,23 +137,12 @@ public class ChartGenerator {
             winshareSeries.add(new XYChart.Data<>(i, Double.parseDouble(scraper.getCell(i, 14))));
         }
 
-        LineChart.Series<Integer, Double> winshares = new LineChart.Series<>("Rebounds Per Game", winshareSeries);
+        LineChart.Series<Integer, Double> winshares = new LineChart.Series<>("Total Win Shares", winshareSeries);
 
         return winshares;
     }
     
-    /*
-    /**
-     * ScatterPlot Graphs with given Parameters
-     * @param startRank
-     * @param endRank
-     * @return LineChart.Series<Integer, Double> object
-     */    
-    public Parent createScatterPlot (int startRank, int endRank) {
-    
-    }
-
-    */
+ 
 
 
     

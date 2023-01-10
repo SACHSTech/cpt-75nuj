@@ -34,7 +34,7 @@ public class CSVScraper  {
    
             this.data = data;
          } catch (Exception e) {
-            
+
          }
          
         
@@ -51,18 +51,7 @@ public class CSVScraper  {
    }
    
 
-   /*
 
-   public HashMap<Integer, Double> getPoints() {
-      return ; 
-   } 
-  
-   public HashMap<Integer, Double> getAssists() {
-  
-      return ; 
-   }
-
-   */
 
  
 
