@@ -84,4 +84,14 @@ public class DataPoint {
 
         this.addingTag++;
     }
+
+    public int getRank() {
+        return this.rank;
+    }
+
+  
+    
+
+
+
 }

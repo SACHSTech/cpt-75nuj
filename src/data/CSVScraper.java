@@ -40,15 +40,7 @@ public class CSVScraper  {
         
    }
 
-   /**
-    * Retrieve Cell from List Object 
-    * @param i index
-    * @param j index
-    * @return value in cell
-    */
-   public String getCell(int i, int j) {
-      return data.get(i).get(j);
-   }
+   
    
  
 
