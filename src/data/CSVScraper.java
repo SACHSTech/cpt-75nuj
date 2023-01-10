@@ -34,6 +34,16 @@ public class CSVScraper {
    public String getCell(int i, int j) {
       return data.get(i).get(j);
    }
+   
+
+   public HashMap<Integer, Double> getPoints() {
+      return ; 
+   } 
+  
+   public HashMap<Integer, Double> getAssists() {
+  
+      return ; 
+   }
 
    
 }
