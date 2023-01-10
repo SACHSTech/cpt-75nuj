@@ -31,7 +31,11 @@ public class CSVScraper {
         
      }
 
-     
+   public String getCell(int i, int j) {
+      return data.get(i).get(j);
+   }
+
+   
 }
 
 
