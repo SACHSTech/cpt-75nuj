@@ -105,9 +105,9 @@ public class DataPoint {
         return this.gamesPlayed;
     }
 
+    public double getMinutesPlayed() {
+        return this.minutesPlayed;
+    }
+
    
-    
-
-
-
 }
