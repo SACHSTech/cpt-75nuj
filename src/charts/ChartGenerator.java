@@ -63,13 +63,13 @@ public class ChartGenerator {
             lineChartData.add(pointsSeries(startRank, endRank));
         } if(showAssists) {
             lineChartData.add(assistsSeries(startRank, endRank));
-        }/* if(showRebounds) {
+        } if(showRebounds) {
             lineChartData.add(reboundsSeries(startRank, endRank));
         } if(showWinShares) {
             lineChartData.add(winshareSeries(startRank, endRank));
         }
 
-        */
+        
 
         //create and return new LineChart object
         LineChart chart = new LineChart(xAxis, yAxis, lineChartData);
