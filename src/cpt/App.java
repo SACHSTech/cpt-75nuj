@@ -2,6 +2,7 @@ package cpt;
  
  
 import ChartsManagement.ChartGenerator;
+import ChartsManagement.ChartValueController;
 import data.CSVScraper;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -48,7 +49,8 @@ public class App extends Application {
             charts.setMaxWidth(1000);
 
        
-            layout = new HBox(charts, button1);
+            layout = new HBox(charts);
+            layout.getChildren().add(ChartValueController.initialLineChart());
             Scene scene = new Scene(layout);
             primaryStage.setScene(scene);
             primaryStage.show();
