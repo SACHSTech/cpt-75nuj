@@ -41,7 +41,7 @@ public class ChartGenerator {
      * @param endRank ending rank plotted on graph
      * @return LineChart Object
      */
-    public Parent createLineChart(int startRank, int endRank) {
+    public LineChart createRankLineChart(int startRank, int endRank) {
         //Creates axis for graph
         NumberAxis xAxis = new NumberAxis("Rank", startRank, endRank, 1);
         NumberAxis yAxis = new NumberAxis("Value", 0, 300, 1);
@@ -100,7 +100,7 @@ public class ChartGenerator {
         ObservableList<XYChart.Data<Integer, Double>> pointsData = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            pointsData.add(new XYChart.Data<>(i, Double.parseDouble(scraper.getCell(i, 6))));
+            pointsData.add(new XYChart.Data<>(i, scraper.get(i).getPpg()));
         }
 
         LineChart.Series<Integer, Double> points = new LineChart.Series<>("Points Per Game", pointsData);
@@ -119,7 +119,7 @@ public class ChartGenerator {
         ObservableList<XYChart.Data<Integer, Double>> assistsData = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            assistsData.add(new XYChart.Data<>(i, Double.parseDouble(scraper.getCell(i, 8))));
+            assistsData.add(new XYChart.Data<>(i, scraper.get(i).getApg()));
         }
 
         LineChart.Series<Integer, Double> assists = new LineChart.Series<>("Assists Per Game", assistsData);
@@ -137,7 +137,7 @@ public class ChartGenerator {
         ObservableList<XYChart.Data<Integer, Double>> reboundsData = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            reboundsData.add(new XYChart.Data<>(i, Double.parseDouble(scraper.getCell(i, 7))));
+            reboundsData.add(new XYChart.Data<>(i, scraper.get(i).getRpg()));
         }
 
         LineChart.Series<Integer, Double> rebounds = new LineChart.Series<>("Rebounds Per Game", reboundsData);
@@ -155,7 +155,7 @@ public class ChartGenerator {
         ObservableList<XYChart.Data<Integer, Double>> winshareSeries = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            winshareSeries.add(new XYChart.Data<>(i, Double.parseDouble(scraper.getCell(i, 14))));
+            winshareSeries.add(new XYChart.Data<>(i, scraper.get(i).getCareerWinShares()));
         }
 
         LineChart.Series<Integer, Double> winshares = new LineChart.Series<>("Total Win Shares", winshareSeries);

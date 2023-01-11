@@ -13,9 +13,9 @@ import javafx.stage.Stage;
 /**
  * An example of radio buttons in various states.
  */
-public class ChartValueController extends Application {
+public class ChartValueController {
  
-    public Parent createContent() {
+    public HBox createContent() {
         HBox hbox = new HBox(18);
         hbox.setAlignment(Pos.CENTER);
         VBox vbox = new VBox();
@@ -41,16 +41,6 @@ public class ChartValueController extends Application {
         return hbox;
     }
  
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setScene(new Scene(createContent()));
-        primaryStage.show();
-    }
- 
-    /**
-     * Java main for when running without JavaFX launcher
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
+
+
 }

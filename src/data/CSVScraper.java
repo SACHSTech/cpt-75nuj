@@ -11,30 +11,43 @@ public class CSVScraper  {
     public CSVScraper() {
          //create buffered reader for stats file
          try {
-            BufferedReader br = new BufferedReader(new FileReader("src\\data\\stats.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("src/data/stats.csv"));
             String line =  null;
    
-            //ArrayList used for containing data
-            List<DataPoint> data = new ArrayList<DataPoint>();
+             //ArrayList used for containing data
+             List<DataPoint> data = new ArrayList<DataPoint>();
+             int j = 0;
    
-            //while there are more rows to go through
-            while((line = br.readLine()) != null){
-               //split the given line by the commas that separate them
-               String[] str = line.split(",");
-   
-               //convert array into an arraylist
-               DataPoint datapoint = new DataPoint();
-               for(int i = 0; i < str.length; i++) {
-                   datapoint.add(str[i]);
-               }
-   
-               //add arraylist into arraylist
-               data.add(datapoint);
-            }
-   
-            this.data = data;
-         } catch (Exception e) {
+             //while there are more rows to go through
+             while((line = br.readLine()) != null){
+                //split the given line by the commas that separate them
+                String[] str = line.split(",");
+    
+                //convert array into an arraylist
+                DataPoint datapoint = new DataPoint();
+                if(j != 0) {
+                  for(int i = 0; i < str.length; i++) {
+                     if(!str[i].equals("")) {
+                        datapoint.add(str[i]);
+                     } else {
+                        datapoint.add("-1");
+                     }
+                     
+                     
+                  }
+                }
 
+                j++;
+                
+    
+                //add arraylist into arraylist
+                data.add(datapoint);
+             }
+    
+             this.data = data;
+
+         } catch (Exception e) {
+            System.out.println("d");
          }
          
         
@@ -43,6 +56,8 @@ public class CSVScraper  {
    public DataPoint get(int i) {
       return data.get(i);
    }
+
+
 
    
    
