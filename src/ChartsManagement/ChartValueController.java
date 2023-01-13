@@ -120,6 +120,11 @@ public class ChartValueController {
 
     }
 
+
+    public static HBox lineControl() {
+        
+    }
+
     
 
 
