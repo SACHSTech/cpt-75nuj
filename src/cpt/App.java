@@ -17,6 +17,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.geometry.Insets; 
+
+
  
 /**
  * A line chart demonstrating a CategoryAxis implementation.
@@ -58,6 +60,9 @@ public class App extends Application {
             //adds created piechart to existing stackpane
             //layout.getChildren().add(chart.createPieGraph(startRank, endRank));
         }
+
+
+        
 
         
 

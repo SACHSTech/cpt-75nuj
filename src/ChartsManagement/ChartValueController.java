@@ -1,5 +1,7 @@
 package ChartsManagement;
  
+import java.util.logging.Handler;
+
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -11,7 +13,17 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.text.Text; 
 import javafx.scene.control.Slider;
+import javafx.scene.control.*;
+import javafx.beans.value.*;
+import javafx.event.*;
+
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Lighting;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
+import javafx.event.ActionEvent;
 
  
 /**
@@ -32,7 +44,6 @@ public class ChartValueController {
         ToggleGroup tg = new ToggleGroup();
         RadioButton rb1 = new RadioButton("Rank");
         rb1.setToggleGroup(tg);
-        rb1.setSelected(true);
  
         RadioButton rb2 = new RadioButton("Points");
         rb2.setToggleGroup(tg);
@@ -46,7 +57,7 @@ public class ChartValueController {
         RadioButton rb5 = new RadioButton("Win Shares");
         rb5.setToggleGroup(tg);
 
-        Button submit1 = new Button("Submit");
+        
 
         Text text = new Text();      
       
@@ -61,42 +72,64 @@ public class ChartValueController {
         fromSlider.setBlockIncrement(50f);
         fromSlider.setDisable(true);
 
-        if(rb1.isSelected()){
-            fromSlider.setDisable(false);
-        } else if(!rb1.isSelected()) {
-            fromSlider.setDisable(true);
-        }
+        Text text1 = new Text();      
+      
+        //Setting the text to be added. 
+        text1.setText("Ending Rank");
+
+        Slider toSlider = new Slider(1, 500, 50);
+        toSlider.setShowTickMarks(true);
+        toSlider.setPrefWidth(200);
+        toSlider.setShowTickLabels(true);
+        toSlider.setMajorTickUnit(50f);
+        toSlider.setBlockIncrement(50f);
+        toSlider.setDisable(true);
+
+        rb1.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> obs, Boolean wasPreviouslySelected, Boolean isNowSelected) {
+                if (isNowSelected) {    
+                    fromSlider.setDisable(false);
+                    toSlider.setDisable(false);
+                } else {
+                    fromSlider.setDisable(true);
+                    toSlider.setDisable(true);
+                }
+            }
+        });
+
+        Button submit = new Button("Submit");
+
+        submit.setOnAction((ActionEvent t) -> {
+
+        });
+
+        
+
+
+
+        
+
+
+        
+
 
 
 
  
-        vbox.getChildren().addAll(txt, rb1, rb2, rb3, rb4, rb5, text, fromSlider);
+        vbox.getChildren().addAll(txt, rb1, rb2, rb3, rb4, rb5, text, fromSlider, text1, toSlider, submit);
         hbox.getChildren().add(vbox);
 
         
  
         return hbox;
     }
+
+
+    
  
 
 
 }
 
 
-/*
- Text text = new Text();      
-      
-        //Setting the text to be added. 
-        text.setText("Hello how are you"); 
-       
-        //setting the position of the text 
-        text.setX(50); 
-        text.setY(50); 
-
-        Slider fromSlider = new Slider(1, 500, 50);
-        fromSlider.setShowTickMarks(true);
-        fromSlider.setPrefWidth(200);
-        fromSlider.setShowTickLabels(true);
-        fromSlider.setMajorTickUnit(50f);
-        fromSlider.setBlockIncrement(50f);
- */
