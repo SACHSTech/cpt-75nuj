@@ -30,8 +30,10 @@ import javafx.event.ActionEvent;
  * An example of radio buttons in various states.
  */
 public class ChartValueController {
+
+    private HBox lineControls;
  
-    public static VBox initialLineControl() {
+    public static void initialLineControl() {
         HBox hbox = new HBox(18);
         hbox.setAlignment(Pos.CENTER);
         VBox vbox = new VBox();
@@ -108,10 +110,9 @@ public class ChartValueController {
  
         vbox.getChildren().addAll(txt, rb1, rb2, rb3, rb4, rb5, text, fromSlider, text1, toSlider, submit);
       
-
+        
         
  
-        return vbox;
     }
 
     public static VBox nextLineChart() {
@@ -121,8 +122,13 @@ public class ChartValueController {
     }
 
 
+    public static void lineControl(VBox one) {
+        lineControls.getChildren().addAll();
+      
+    }
+
     public static HBox lineControl() {
-        
+        return lineControls;
     }
 
     
