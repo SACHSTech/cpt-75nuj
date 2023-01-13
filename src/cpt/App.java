@@ -52,7 +52,7 @@ public class App extends Application {
 
        
             layout = new HBox(charts);
-            layout.getChildren().add(ChartValueController.initialLineChart());
+            layout.getChildren().add(ChartValueController.lineControl());
             Scene scene = new Scene(layout);
             primaryStage.setScene(scene);
             primaryStage.show();

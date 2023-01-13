@@ -31,7 +31,7 @@ import javafx.event.ActionEvent;
  */
 public class ChartValueController {
  
-    public static HBox initialLineChart() {
+    public static VBox initialLineControl() {
         HBox hbox = new HBox(18);
         hbox.setAlignment(Pos.CENTER);
         VBox vbox = new VBox();
@@ -101,29 +101,28 @@ public class ChartValueController {
         Button submit = new Button("Submit");
 
         submit.setOnAction((ActionEvent t) -> {
-
+            nextLineChart();
         });
-
-        
-
-
-
-        
-
-
-        
-
-
 
 
  
         vbox.getChildren().addAll(txt, rb1, rb2, rb3, rb4, rb5, text, fromSlider, text1, toSlider, submit);
-        hbox.getChildren().add(vbox);
+      
 
         
  
-        return hbox;
+        return vbox;
     }
+
+    public static VBox nextLineChart() {
+
+
+
+    }
+
+    
+
+
 
 
     
