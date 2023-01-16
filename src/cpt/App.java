@@ -44,6 +44,7 @@ public class App extends Application {
         if(showLineChart) {
             //adds created linechart to existing stackpane
             LineChart charts = chart.createRankLineChart(startRank, endRank);
+            ChartValueController controller = new ChartValueController();
            
 
             charts.setPrefWidth(900);
@@ -52,7 +53,7 @@ public class App extends Application {
 
        
             layout = new HBox(charts);
-            layout.getChildren().add(ChartValueController.lineControl());
+            layout.getChildren().add(controller.lineControl());
             Scene scene = new Scene(layout);
             primaryStage.setScene(scene);
             primaryStage.show();

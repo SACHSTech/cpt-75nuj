@@ -32,10 +32,14 @@ import javafx.event.ActionEvent;
 public class ChartValueController {
 
     private HBox lineControls;
+
+    public ChartValueController () {
+        lineControls = new HBox(18);
+        lineControls.setAlignment(Pos.CENTER);
+
+    }
  
-    public static void initialLineControl() {
-        HBox hbox = new HBox(18);
-        hbox.setAlignment(Pos.CENTER);
+    public void initialLineControl() {
         VBox vbox = new VBox();
         vbox.setSpacing(5);
         vbox.setAlignment(Pos.CENTER_LEFT);
@@ -102,33 +106,62 @@ public class ChartValueController {
 
         Button submit = new Button("Submit");
 
-        submit.setOnAction((ActionEvent t) -> {
-            nextLineChart();
-        });
-
-
  
         vbox.getChildren().addAll(txt, rb1, rb2, rb3, rb4, rb5, text, fromSlider, text1, toSlider, submit);
       
-        
+        lineControl(vbox);
+
+        submit.setOnAction((ActionEvent t) -> {
+            nextLineChart(rb1.isSelected());
+        });
         
  
     }
 
-    public static VBox nextLineChart() {
+    public void nextLineChart(boolean rank) {
+
+        if(rank) {
+            ToggleGroup tg = new ToggleGroup(); 
+            RadioButton rb2 = new RadioButton("Points");
+            rb2.setToggleGroup(tg);
+ 
+            RadioButton rb3 = new RadioButton("Assists");
+            rb3.setToggleGroup(tg);
+
+            RadioButton rb4 = new RadioButton("Rebounds");
+            rb4.setToggleGroup(tg);
+
+            RadioButton rb5 = new RadioButton("Win Shares");
+            rb5.setToggleGroup(tg);
+
+            VBox vbox = new VBox();
+
+            vbox.getChildren().addAll(rb2, rb3, rb4, rb5);
+            
+            vbox.setSpacing(5);
+            vbox.setAlignment(Pos.CENTER_LEFT);
+      
+            lineControl(vbox);
 
 
+        }
 
     }
 
 
-    public static void lineControl(VBox one) {
-        lineControls.getChildren().addAll();
+    public void lineControl(VBox one) {
+        lineControls.getChildren().addAll(one);
       
     }
 
-    public static HBox lineControl() {
+    public HBox lineControl() {
+        initialLineControl();
         return lineControls;
+    }
+
+    public void reset() {
+        lineControls = new HBox(18);
+        lineControls.setAlignment(Pos.CENTER);
     }
 
     
