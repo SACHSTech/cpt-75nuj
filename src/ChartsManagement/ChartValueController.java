@@ -1,27 +1,15 @@
 package ChartsManagement;
  
-import java.util.logging.Handler;
 
-import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.scene.text.Text; 
 import javafx.scene.control.Slider;
-import javafx.scene.control.*;
 import javafx.beans.value.*;
-import javafx.event.*;
-
-import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.effect.Lighting;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+import java.util.*;
 
 import javafx.event.ActionEvent;
 
@@ -31,12 +19,18 @@ import javafx.event.ActionEvent;
  */
 public class ChartValueController {
 
-    private HBox lineControls;
+    private VBox lineControls;
+    private boolean secondaryPanel;
+    private ArrayList<Boolean> rankBooleans;
 
     public ChartValueController () {
-        lineControls = new HBox(18);
+        lineControls = new VBox(18);
         lineControls.setAlignment(Pos.CENTER);
-
+        rankBooleans = new ArrayList<>();
+        rankBooleans.add(false);
+        rankBooleans.add(false);
+        rankBooleans.add(false);
+        rankBooleans.add(false);
     }
  
     public void initialLineControl() {
@@ -112,13 +106,16 @@ public class ChartValueController {
         lineControl(vbox);
 
         submit.setOnAction((ActionEvent t) -> {
-            nextLineChart(rb1.isSelected());
+            if(!secondaryPanel) {
+                nextLineChart(rb1.isSelected());
+            }
         });
         
  
     }
 
     public void nextLineChart(boolean rank) {
+        this.secondaryPanel = true;
 
         if(rank) {
             ToggleGroup tg = new ToggleGroup(); 
@@ -136,13 +133,53 @@ public class ChartValueController {
 
             VBox vbox = new VBox();
 
-            vbox.getChildren().addAll(rb2, rb3, rb4, rb5);
+            Text yaxis = new Text();      
+      
+            //Setting the text to be added. 
+            yaxis.setText("Y-Axis"); 
+
+            Button submit = new Button("Submit");
+
+            vbox.getChildren().addAll(yaxis, rb2, rb3, rb4, rb5, submit);
             
             vbox.setSpacing(5);
             vbox.setAlignment(Pos.CENTER_LEFT);
       
             lineControl(vbox);
 
+            submit.setOnAction((ActionEvent t) -> {
+                if(rb2.isSelected()) {
+                    rankBooleans.add(0, true);
+                    reset();
+                    this.secondaryPanel = false;
+
+                } else if(rb3.isSelected()) {
+                    rankBooleans.add(1, true);
+                    reset();
+                    this.secondaryPanel = false;
+
+                } else if(rb4.isSelected()) {
+                    rankBooleans.add(2, true);
+                    reset();
+                    this.secondaryPanel = false;
+
+                } else if(rb5.isSelected()) {
+                    rankBooleans.add(3, true);
+                    reset();
+                    this.secondaryPanel = false;
+                }
+
+                boolean one = this.getRankBooleans().get(0);
+                boolean two = this.getRankBooleans().get(1);
+                boolean three = this.getRankBooleans().get(2);
+                boolean four = this.getRankBooleans().get(3);
+
+                
+                
+
+            });
+
+        } else  {
 
         }
 
@@ -154,14 +191,18 @@ public class ChartValueController {
       
     }
 
-    public HBox lineControl() {
+    public VBox lineControl() {
         initialLineControl();
         return lineControls;
     }
 
     public void reset() {
-        lineControls = new HBox(18);
-        lineControls.setAlignment(Pos.CENTER);
+        lineControls.getChildren().clear();
+        lineControl();
+    }
+
+    public ArrayList<Boolean> getRankBooleans() {
+        return rankBooleans;
     }
 
     

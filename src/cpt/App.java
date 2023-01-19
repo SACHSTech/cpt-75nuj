@@ -38,18 +38,21 @@ public class App extends Application {
     @Override public void start(Stage primaryStage) throws Exception {
         //Initializes StackPane object
         HBox layout;
-        Button button1 = new Button("Button Number 1");
+        ChartValueController controller = new ChartValueController();
 
         //User has toggle which indicates whether they want to display a line or pie chart
         if(showLineChart) {
             //adds created linechart to existing stackpane
+            
+    
+
             LineChart charts = chart.createRankLineChart(startRank, endRank);
-            ChartValueController controller = new ChartValueController();
+            controller.addChart();
            
 
-            charts.setPrefWidth(900);
-            charts.setMinWidth(400);
-            charts.setMaxWidth(1000);
+            charts.setPrefWidth(1500);
+            charts.setMinWidth(1000);
+            charts.setMaxWidth(2000);
 
        
             layout = new HBox(charts);
@@ -57,19 +60,15 @@ public class App extends Application {
             Scene scene = new Scene(layout);
             primaryStage.setScene(scene);
             primaryStage.show();
+
+            
         } else {
             //adds created piechart to existing stackpane
             //layout.getChildren().add(chart.createPieGraph(startRank, endRank));
         }
 
 
-        
-
-        
-
-
-
-
+    
         
     }
  
