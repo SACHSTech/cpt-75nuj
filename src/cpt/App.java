@@ -47,7 +47,7 @@ public class App extends Application {
     
 
             LineChart charts = chart.createRankLineChart(startRank, endRank);
-            controller.addChart();
+            controller.addChartObject(chart);
            
 
             charts.setPrefWidth(1500);
