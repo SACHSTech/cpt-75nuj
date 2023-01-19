@@ -107,8 +107,12 @@ public class ChartValueController {
         lineControl(vbox);
 
         submit.setOnAction((ActionEvent t) -> {
-            if(!secondaryPanel) {
-                nextLineChart(rb1.isSelected());
+            if (fromSlider.getValue() < toSlider.getValue()) {
+                chartObject.setEndRank((int)toSlider.getValue());
+                chartObject.setStartRank((int)fromSlider.getValue());
+                if(!secondaryPanel) {
+                    nextLineChart(rb1.isSelected());
+                }
             }
         });
         
@@ -157,7 +161,11 @@ public class ChartValueController {
                 boolean three = this.getRankBooleans().get(2);
                 boolean four = this.getRankBooleans().get(3);
 
-                chartObject.updateBooleans(one, two, three, four);
+                if(one || two || three || four) {
+                    chartObject.updateBooleans(one, two, three, four);
+                    this.secondaryPanel = false;
+                    this.reset();
+                }
                 
 
             });

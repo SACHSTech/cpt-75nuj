@@ -26,8 +26,6 @@ import javafx.geometry.Insets;
 public class App extends Application {
     ChartGenerator chart = new ChartGenerator();
 
-    int startRank = 1;
-    int endRank = 10;
     boolean showLineChart = true;
     
 
@@ -46,7 +44,7 @@ public class App extends Application {
             
     
 
-            chart.createRankLineChart(startRank, endRank);
+            chart.createRankLineChart();
             controller.addChartObject(chart);
            
 

@@ -43,6 +43,8 @@ public class ChartGenerator {
         this.showWinShares = false;
         this.showRebounds = false;
         this.currentChart = new HBox();
+        this.startRank = 0;
+        this.endRank = 0;
     }
 
 
@@ -51,9 +53,7 @@ public class ChartGenerator {
      * @param startRank starting rank plotted on graph
      * @param endRank ending rank plotted on graph
      */
-    public void createRankLineChart(int startRank, int endRank) {
-        this.startRank = startRank;
-        this.endRank = endRank;
+    public void createRankLineChart() {
         //Creates axis for graph
         NumberAxis xAxis = new NumberAxis("Rank", startRank, endRank, 1);
         NumberAxis yAxis = new NumberAxis("Value", 0, 300, 1);
@@ -105,7 +105,7 @@ public class ChartGenerator {
         this.showRebounds = showRebounds;
         this.showWinShares = showWinShares;
 
-        this.createRankLineChart(startRank, endRank);
+        this.createRankLineChart();
 
         System.out.println(showPoints + " " + showAssists + " " + showRebounds + " " + showWinShares);
     }
@@ -186,6 +186,13 @@ public class ChartGenerator {
     public HBox getCurrentChart() {
         return currentChart;
     }
-    
+
+    public void setStartRank(int startRank) {
+        this.startRank = startRank;
+    }
+
+    public void setEndRank(int endRank) {
+        this.endRank = endRank;
+    }    
  
 }
