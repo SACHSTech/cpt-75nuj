@@ -22,6 +22,7 @@ public class ChartValueController {
     private VBox lineControls;
     private boolean secondaryPanel;
     private ArrayList<Boolean> rankBooleans;
+    private ChartGenerator chartObject;
 
     public ChartValueController () {
         lineControls = new VBox(18);
@@ -203,6 +204,10 @@ public class ChartValueController {
 
     public ArrayList<Boolean> getRankBooleans() {
         return rankBooleans;
+    }
+
+    public void addChartObject(ChartGenerator chart) {
+        this.chartObject = chart;
     }
 
     

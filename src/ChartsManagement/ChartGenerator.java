@@ -89,7 +89,16 @@ public class ChartGenerator {
 
         chart.setTitle(title);
         return chart;
-    }  
+    }
+    
+    public void updateBooleans(boolean showPoints, boolean showAssists, boolean showRebounds, boolean showWinShares) {
+        this.showPoints = showPoints;
+        this.showAssists = showAssists;
+        this.showRebounds = showRebounds;
+        this.showWinShares = showWinShares;
+
+        System.out.println(showPoints + " " + showAssists + " " + showRebounds + " " + showWinShares);
+    }
     
     /**
      * Creates a LineChart Series for Points
