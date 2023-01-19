@@ -46,17 +46,14 @@ public class App extends Application {
             
     
 
-            LineChart charts = chart.createRankLineChart(startRank, endRank);
+            chart.createRankLineChart(startRank, endRank);
             controller.addChartObject(chart);
            
 
-            charts.setPrefWidth(1500);
-            charts.setMinWidth(1000);
-            charts.setMaxWidth(2000);
 
        
-            layout = new HBox(charts);
-            layout.getChildren().add(controller.lineControl());
+            layout = new HBox(chart.getCurrentChart(), controller.lineControl());
+         
             Scene scene = new Scene(layout);
             primaryStage.setScene(scene);
             primaryStage.show();

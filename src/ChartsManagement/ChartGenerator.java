@@ -7,12 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.*;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import java.io.*;
 import java.util.*;
+import javafx.scene.layout.HBox;
 
 
 import data.CSVScraper;  
@@ -27,12 +29,20 @@ public class ChartGenerator {
     private boolean showRebounds;
     private boolean showWinShares;
     private CSVScraper scraper;
+    private int startRank;
+    private int endRank;
+    private HBox currentChart;
 
     /**
      * Constructor automatically creates a CSVScraper object when created
      */
     public ChartGenerator () {
         this.scraper = new CSVScraper();
+        this.showPoints = false;
+        this.showAssists = false;
+        this.showWinShares = false;
+        this.showRebounds = false;
+        this.currentChart = new HBox();
     }
 
 
@@ -40,9 +50,10 @@ public class ChartGenerator {
      * Creates a Linechart based of ranks the user wants to see and the stats chosen
      * @param startRank starting rank plotted on graph
      * @param endRank ending rank plotted on graph
-     * @return LineChart Object
      */
-    public LineChart createRankLineChart(int startRank, int endRank) {
+    public void createRankLineChart(int startRank, int endRank) {
+        this.startRank = startRank;
+        this.endRank = endRank;
         //Creates axis for graph
         NumberAxis xAxis = new NumberAxis("Rank", startRank, endRank, 1);
         NumberAxis yAxis = new NumberAxis("Value", 0, 300, 1);
@@ -51,10 +62,6 @@ public class ChartGenerator {
         ObservableList<XYChart.Series<Integer,Double>> lineChartData =
             FXCollections.observableArrayList();
 
-        showPoints = true;
-        showAssists = true;
-        showRebounds = true;
-        showWinShares = true;
         //add lines depending on selected stats
         if(showPoints) {
             lineChartData.add(pointsSeries(startRank, endRank));
@@ -88,7 +95,8 @@ public class ChartGenerator {
         title += "By Rank on SLAM's 2011 Top 500 Players";
 
         chart.setTitle(title);
-        return chart;
+        this.currentChart.getChildren().clear();
+        this.currentChart.getChildren().add(chart);
     }
     
     public void updateBooleans(boolean showPoints, boolean showAssists, boolean showRebounds, boolean showWinShares) {
@@ -96,6 +104,8 @@ public class ChartGenerator {
         this.showAssists = showAssists;
         this.showRebounds = showRebounds;
         this.showWinShares = showWinShares;
+
+        this.createRankLineChart(startRank, endRank);
 
         System.out.println(showPoints + " " + showAssists + " " + showRebounds + " " + showWinShares);
     }
@@ -171,6 +181,10 @@ public class ChartGenerator {
         LineChart.Series<Integer, Double> winshares = new LineChart.Series<>("Total Win Shares", winshareSeries);
 
         return winshares;
+    }
+
+    public HBox getCurrentChart() {
+        return currentChart;
     }
     
  

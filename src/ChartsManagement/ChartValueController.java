@@ -118,19 +118,14 @@ public class ChartValueController {
     public void nextLineChart(boolean rank) {
         this.secondaryPanel = true;
 
-        if(rank) {
-            ToggleGroup tg = new ToggleGroup(); 
+        if(rank) { 
             RadioButton rb2 = new RadioButton("Points");
-            rb2.setToggleGroup(tg);
  
             RadioButton rb3 = new RadioButton("Assists");
-            rb3.setToggleGroup(tg);
 
             RadioButton rb4 = new RadioButton("Rebounds");
-            rb4.setToggleGroup(tg);
 
             RadioButton rb5 = new RadioButton("Win Shares");
-            rb5.setToggleGroup(tg);
 
             VBox vbox = new VBox();
 
@@ -149,33 +144,20 @@ public class ChartValueController {
             lineControl(vbox);
 
             submit.setOnAction((ActionEvent t) -> {
-                if(rb2.isSelected()) {
-                    rankBooleans.add(0, true);
-                    reset();
-                    this.secondaryPanel = false;
+               
 
-                } else if(rb3.isSelected()) {
-                    rankBooleans.add(1, true);
-                    reset();
-                    this.secondaryPanel = false;
+                rankBooleans.add(0, rb2.isSelected());
+                rankBooleans.add(0, rb3.isSelected());
+                rankBooleans.add(0, rb4.isSelected());
+                rankBooleans.add(0, rb5.isSelected());
 
-                } else if(rb4.isSelected()) {
-                    rankBooleans.add(2, true);
-                    reset();
-                    this.secondaryPanel = false;
-
-                } else if(rb5.isSelected()) {
-                    rankBooleans.add(3, true);
-                    reset();
-                    this.secondaryPanel = false;
-                }
 
                 boolean one = this.getRankBooleans().get(0);
                 boolean two = this.getRankBooleans().get(1);
                 boolean three = this.getRankBooleans().get(2);
                 boolean four = this.getRankBooleans().get(3);
 
-                
+                chartObject.updateBooleans(one, two, three, four);
                 
 
             });
