@@ -28,6 +28,7 @@ public class ChartGenerator {
     private boolean showAssists;
     private boolean showRebounds;
     private boolean showWinShares;
+    private int showRank;
     private CSVScraper scraper;
     private int startRank;
     private int endRank;
@@ -45,6 +46,7 @@ public class ChartGenerator {
         this.currentChart = new HBox();
         this.startRank = 0;
         this.endRank = 0;
+        this.showRank = 0;
     }
 
 
@@ -59,19 +61,26 @@ public class ChartGenerator {
         NumberAxis yAxis = new NumberAxis("Value", 0, 300, 1);
 
 
-        ObservableList<XYChart.Series<Integer,Double>> lineChartData =
+        ObservableList<XYChart.Series<Double,Double>> lineChartData =
             FXCollections.observableArrayList();
 
         //add lines depending on selected stats
-        if(showPoints) {
-            lineChartData.add(pointsSeries(startRank, endRank));
-        } if(showAssists) {
-            lineChartData.add(assistsSeries(startRank, endRank));
-        } if(showRebounds) {
-            lineChartData.add(reboundsSeries(startRank, endRank));
-        } if(showWinShares) {
-            lineChartData.add(winshareSeries(startRank, endRank));
+        if(showRank != 0) {
+            lineChartData.add(this.rankSeries());
+            xAxis = new NumberAxis("Stat Value", 1, 300, 1);
+            yAxis = new NumberAxis("Rank", 0, 500, 1);
+        } else {
+            if(showPoints) {
+                lineChartData.add(this.pointsSeries(startRank, endRank));
+            } if(showAssists) {
+                lineChartData.add(this.assistsSeries(startRank, endRank));
+            } if(showRebounds) {
+                lineChartData.add(this.reboundsSeries(startRank, endRank));
+            } if(showWinShares) {
+                lineChartData.add(this.winshareSeries(startRank, endRank));
+            }
         }
+       
 
         
 
@@ -81,18 +90,39 @@ public class ChartGenerator {
 
         //Creates a title based on the selected stats
         String title = "";
+        if(showRank != 0) {
+            title += "Rank vs ";
+            switch(showRank) {
+                case 1:
+                    title += "Points";
+                    break;
+                case 2:
+                    title += "Assists";
+                    break;
+                case 3:
+                    title += "Rebounds";
+                    break;
+                case 4:
+                    title += "Career Win Shares";
+                    break;
+                
+            }
+        } else {
+            if(showPoints) {
+                title += "Points, ";
+            } if(showAssists) {
+                title += "Assists, ";
+            } if(showRebounds) {
+                title += "Rebounds, ";
+            } if(showWinShares) {
+                title += "Win Shares, ";
+            }
 
-        if(showPoints) {
-            title += "Points, ";
-        } if(showAssists) {
-            title += "Assists, ";
-        } if(showRebounds) {
-            title += "Rebounds, ";
-        } if(showWinShares) {
-            title += "Win Shares, ";
+            title += "By Rank";
         }
+        
 
-        title += "By Rank on SLAM's 2011 Top 500 Players";
+        title += " on SLAM's 2011 Top 500 Players";
 
         chart.setTitle(title);
         this.currentChart.getChildren().clear();
@@ -107,25 +137,59 @@ public class ChartGenerator {
 
         this.createRankLineChart();
 
-        System.out.println(showPoints + " " + showAssists + " " + showRebounds + " " + showWinShares);
+    }
+
+    public void setShowRank(int rank) {
+        this.showRank = rank;
+        if(rank != 0) {
+            this.createRankLineChart();
+        }
     }
     
     /**
      * Creates a LineChart Series for Points
      * @param startRank starting rank in series
      * @param endRank ending rank in series
-     * @return LineChart.Series<Integer, Double> object
+     * @return LineChart.Series<Double, Double> object
      */
-    public LineChart.Series<Integer, Double> pointsSeries(int startRank, int endRank) {
-        ObservableList<XYChart.Data<Integer, Double>> pointsData = FXCollections.observableArrayList();
+    public LineChart.Series<Double, Double> pointsSeries(int startRank, int endRank) {
+        ObservableList<XYChart.Data<Double, Double>> pointsData = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            pointsData.add(new XYChart.Data<>(i, scraper.get(i).getPpg()));
+            pointsData.add(new XYChart.Data<>((double) i, scraper.get(i).getPpg()));
         }
 
-        LineChart.Series<Integer, Double> points = new LineChart.Series<>("Points Per Game", pointsData);
+        LineChart.Series<Double, Double> points = new LineChart.Series<>("Points Per Game", pointsData);
 
         return points;
+    }
+
+    
+    public LineChart.Series<Double, Double> rankSeries() {
+        ObservableList<XYChart.Data<Double, Double>> rankData = FXCollections.observableArrayList();
+
+        for(int i = 0; i <= 500; i++) {
+            switch(this.showRank) {
+                case 1:
+                    rankData.add(new XYChart.Data<>((double) scraper.get(i).getPpg(), (double) scraper.get(i).getRank()));
+                    break;
+                case 2:
+                    rankData.add(new XYChart.Data<>((double) scraper.get(i).getApg(), (double) scraper.get(i).getRank()));
+                    break;
+                case 3:
+                    rankData.add(new XYChart.Data<>((double) scraper.get(i).getRpg(), (double) scraper.get(i).getRank()));
+                    break;
+                case 4:
+                    rankData.add(new XYChart.Data<>((double) scraper.get(i).getCareerWinShares(), (double) scraper.get(i).getRank()));
+                    break;
+            
+            }
+            
+        }
+
+        LineChart.Series<Double, Double> rank = new LineChart.Series<>("Rank", rankData);
+
+        return rank;
     }
 
     
@@ -133,16 +197,16 @@ public class ChartGenerator {
      * Creates a LineChart Series for assists
     * @param startRank starting rank in series
      * @param endRank ending rank in series
-     * @return LineChart.Series<Integer, Double> object
+     * @return LineChart.Series<Double, Double> object
      */
-    public LineChart.Series<Integer, Double> assistsSeries(int startRank, int endRank) {
-        ObservableList<XYChart.Data<Integer, Double>> assistsData = FXCollections.observableArrayList();
+    public LineChart.Series<Double, Double> assistsSeries(int startRank, int endRank) {
+        ObservableList<XYChart.Data<Double, Double>> assistsData = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            assistsData.add(new XYChart.Data<>(i, scraper.get(i).getApg()));
+            assistsData.add(new XYChart.Data<>((double) i, scraper.get(i).getApg()));
         }
 
-        LineChart.Series<Integer, Double> assists = new LineChart.Series<>("Assists Per Game", assistsData);
+        LineChart.Series<Double, Double> assists = new LineChart.Series<>("Assists Per Game", assistsData);
 
         return assists;
     }
@@ -151,16 +215,16 @@ public class ChartGenerator {
      * Creates a LineChart Series for rebounds
      * @param startRank starting rank in series
      * @param endRank ending rank in series
-     * @return LineChart.Series<Integer, Double> object
+     * @return LineChart.Series<Double, Double> object
      */
-    public LineChart.Series<Integer, Double> reboundsSeries(int startRank, int endRank) {
-        ObservableList<XYChart.Data<Integer, Double>> reboundsData = FXCollections.observableArrayList();
+    public LineChart.Series<Double, Double> reboundsSeries(int startRank, int endRank) {
+        ObservableList<XYChart.Data<Double, Double>> reboundsData = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            reboundsData.add(new XYChart.Data<>(i, scraper.get(i).getRpg()));
+            reboundsData.add(new XYChart.Data<>((double) i, scraper.get(i).getRpg()));
         }
 
-        LineChart.Series<Integer, Double> rebounds = new LineChart.Series<>("Rebounds Per Game", reboundsData);
+        LineChart.Series<Double, Double> rebounds = new LineChart.Series<>("Rebounds Per Game", reboundsData);
 
         return rebounds;
     }
@@ -169,16 +233,16 @@ public class ChartGenerator {
      * Creates a LineChart Series for win shares
      * @param startRank starting rank in series
      * @param endRank ending rank in series
-     * @return LineChart.Series<Integer, Double> object
+     * @return LineChart.Series<Double, Double> object
      */
-    public LineChart.Series<Integer, Double> winshareSeries(int startRank, int endRank) {
-        ObservableList<XYChart.Data<Integer, Double>> winshareSeries = FXCollections.observableArrayList();
+    public LineChart.Series<Double, Double> winshareSeries(int startRank, int endRank) {
+        ObservableList<XYChart.Data<Double, Double>> winshareSeries = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            winshareSeries.add(new XYChart.Data<>(i, scraper.get(i).getCareerWinShares()));
+            winshareSeries.add(new XYChart.Data<>((double) i, scraper.get(i).getCareerWinShares()));
         }
 
-        LineChart.Series<Integer, Double> winshares = new LineChart.Series<>("Total Win Shares", winshareSeries);
+        LineChart.Series<Double, Double> winshares = new LineChart.Series<>("Total Win Shares", winshareSeries);
 
         return winshares;
     }

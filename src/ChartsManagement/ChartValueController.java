@@ -110,69 +110,79 @@ public class ChartValueController {
             if (fromSlider.getValue() < toSlider.getValue()) {
                 chartObject.setEndRank((int)toSlider.getValue());
                 chartObject.setStartRank((int)fromSlider.getValue());
-                if(!secondaryPanel) {
-                    nextLineChart(rb1.isSelected());
-                }
             }
+            
+            if(rb2.isSelected()) {
+                chartObject.setShowRank(1);
+            } else if(rb3.isSelected()){
+                chartObject.setShowRank(2);
+            } else if(rb4.isSelected()) {
+                chartObject.setShowRank(3);
+            } else if(rb5.isSelected()) {
+                chartObject.setShowRank(4);
+            } else {
+                chartObject.setShowRank(0);
+            }
+
+            if(!secondaryPanel && rb1.isSelected() ) {
+                nextLineChart();
+            } 
         });
         
  
     }
 
-    public void nextLineChart(boolean rank) {
+    public void nextLineChart() {
         this.secondaryPanel = true;
 
-        if(rank) { 
-            RadioButton rb2 = new RadioButton("Points");
+        
+        RadioButton rb2 = new RadioButton("Points");
  
-            RadioButton rb3 = new RadioButton("Assists");
+        RadioButton rb3 = new RadioButton("Assists");
 
-            RadioButton rb4 = new RadioButton("Rebounds");
+        RadioButton rb4 = new RadioButton("Rebounds");
 
-            RadioButton rb5 = new RadioButton("Win Shares");
+        RadioButton rb5 = new RadioButton("Win Shares");
 
-            VBox vbox = new VBox();
+        VBox vbox = new VBox();
 
-            Text yaxis = new Text();      
+        Text yaxis = new Text();      
       
-            //Setting the text to be added. 
-            yaxis.setText("Y-Axis"); 
+        //Setting the text to be added. 
+        yaxis.setText("Y-Axis"); 
 
-            Button submit = new Button("Submit");
+        Button submit = new Button("Submit");
 
-            vbox.getChildren().addAll(yaxis, rb2, rb3, rb4, rb5, submit);
+        vbox.getChildren().addAll(yaxis, rb2, rb3, rb4, rb5, submit);
             
-            vbox.setSpacing(5);
-            vbox.setAlignment(Pos.CENTER_LEFT);
+        vbox.setSpacing(5);
+        vbox.setAlignment(Pos.CENTER_LEFT);
       
-            lineControl(vbox);
+        lineControl(vbox);
 
-            submit.setOnAction((ActionEvent t) -> {
-               
+        submit.setOnAction((ActionEvent t) -> {
+    
+            rankBooleans.add(0, rb2.isSelected());
+            rankBooleans.add(1, rb3.isSelected());
+            rankBooleans.add(2, rb4.isSelected());
+            rankBooleans.add(3, rb5.isSelected());
 
-                rankBooleans.add(0, rb2.isSelected());
-                rankBooleans.add(0, rb3.isSelected());
-                rankBooleans.add(0, rb4.isSelected());
-                rankBooleans.add(0, rb5.isSelected());
 
-
-                boolean one = this.getRankBooleans().get(0);
-                boolean two = this.getRankBooleans().get(1);
-                boolean three = this.getRankBooleans().get(2);
-                boolean four = this.getRankBooleans().get(3);
-
-                if(one || two || three || four) {
-                    chartObject.updateBooleans(one, two, three, four);
-                    this.secondaryPanel = false;
-                    this.reset();
-                }
+            boolean one = this.getRankBooleans().get(0);
+            boolean two = this.getRankBooleans().get(1);
+            boolean three = this.getRankBooleans().get(2);
+            boolean four = this.getRankBooleans().get(3);
+            
+            if(one || two || three || four) {
+                chartObject.updateBooleans(one, two, three, four);
+                this.secondaryPanel = false;
+                this.reset();
+            }
                 
 
-            });
+        });
 
-        } else  {
-
-        }
+        
 
     }
 
@@ -201,13 +211,6 @@ public class ChartValueController {
     }
 
     
-
-
-
-
-    
- 
-
 
 }
 
