@@ -47,5 +47,8 @@ public class Sorter {
 
     }
 
-    public 
+    public ArrayList<DataPoint> sort() {
+        this.sorter();
+        return sortingArray;
+    }
 }
