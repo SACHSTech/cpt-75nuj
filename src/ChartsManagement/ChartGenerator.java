@@ -15,6 +15,8 @@ import javafx.scene.layout.StackPane;
 import java.io.*;
 import java.util.*;
 import javafx.scene.layout.HBox;
+import data.Sorter;
+import data.GraphType;
 
 
 import data.CSVScraper;  
@@ -33,6 +35,7 @@ public class ChartGenerator {
     private int startRank;
     private int endRank;
     private HBox currentChart;
+    private Sorter sorter;
 
     /**
      * Constructor automatically creates a CSVScraper object when created
@@ -47,6 +50,7 @@ public class ChartGenerator {
         this.startRank = 0;
         this.endRank = 0;
         this.showRank = 0;
+        this.sorter = new Sorter();
     }
 
 
@@ -56,9 +60,9 @@ public class ChartGenerator {
      * @param endRank ending rank plotted on graph
      */
     public void createRankLineChart() {
-        //Creates axis for graph
         NumberAxis xAxis = new NumberAxis("Rank", startRank, endRank, 1);
-        NumberAxis yAxis = new NumberAxis("Value", 0, 300, 1);
+        NumberAxis yAxis = new NumberAxis("Value", 0, 100, 0.1);
+        
 
 
         ObservableList<XYChart.Series<Double,Double>> lineChartData =
@@ -67,17 +71,35 @@ public class ChartGenerator {
         //add lines depending on selected stats
         if(showRank != 0) {
             lineChartData.add(this.rankSeries());
-            xAxis = new NumberAxis("Stat Value", 1, 300, 1);
+
+            NumberAxis xAxis1 = sorter.axis("Stat Value", new NumberAxis("Stat Value", 0, 500, 500/10000));
+            xAxis = xAxis1;
             yAxis = new NumberAxis("Rank", 0, 500, 1);
         } else {
             if(showPoints) {
                 lineChartData.add(this.pointsSeries(startRank, endRank));
+
+                NumberAxis yAxis1 = sorter.axis("Value", yAxis);
+                yAxis = yAxis1;
+
             } if(showAssists) {
                 lineChartData.add(this.assistsSeries(startRank, endRank));
+
+                NumberAxis yAxis1 = sorter.axis("Value", yAxis);
+                yAxis = yAxis1;
+
             } if(showRebounds) {
                 lineChartData.add(this.reboundsSeries(startRank, endRank));
+
+                NumberAxis yAxis1 = sorter.axis("Value", yAxis);
+                yAxis = yAxis1;
+
             } if(showWinShares) {
                 lineChartData.add(this.winshareSeries(startRank, endRank));
+
+                NumberAxis yAxis1 = sorter.axis("Value", yAxis);
+                yAxis = yAxis1;
+
             }
         }
        
@@ -162,7 +184,9 @@ public class ChartGenerator {
         ObservableList<XYChart.Data<Double, Double>> pointsData = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            pointsData.add(new XYChart.Data<>((double) i, scraper.get(i).getPpg()));
+            pointsData.add(new XYChart.Data<>((double) i, sorter.addSort(GraphType.BYPOINTS, scraper.get(i))));
+
+            
         }
 
         LineChart.Series<Double, Double> points = new LineChart.Series<>("Points Per Game", pointsData);
@@ -177,16 +201,16 @@ public class ChartGenerator {
         for(int i = 0; i <= 500; i++) {
             switch(this.showRank) {
                 case 1:
-                    rankData.add(new XYChart.Data<>((double) scraper.get(i).getPpg(), (double) scraper.get(i).getRank()));
+                    rankData.add(new XYChart.Data<>(sorter.addSort(GraphType.BYPOINTS, scraper.get(i)), (double) scraper.get(i).getRank()));
                     break;
                 case 2:
-                    rankData.add(new XYChart.Data<>((double) scraper.get(i).getApg(), (double) scraper.get(i).getRank()));
+                    rankData.add(new XYChart.Data<>(sorter.addSort(GraphType.BYASSISTS, scraper.get(i)), (double) scraper.get(i).getRank()));
                     break;
                 case 3:
-                    rankData.add(new XYChart.Data<>((double) scraper.get(i).getRpg(), (double) scraper.get(i).getRank()));
+                    rankData.add(new XYChart.Data<>(sorter.addSort(GraphType.BYREBOUNDS, scraper.get(i)), (double) scraper.get(i).getRank()));
                     break;
                 case 4:
-                    rankData.add(new XYChart.Data<>((double) scraper.get(i).getCareerWinShares(), (double) scraper.get(i).getRank()));
+                    rankData.add(new XYChart.Data<>(sorter.addSort(GraphType.BYWINSHARES, scraper.get(i)), (double) scraper.get(i).getRank()));
                     break;
             
             }
@@ -209,7 +233,7 @@ public class ChartGenerator {
         ObservableList<XYChart.Data<Double, Double>> assistsData = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            assistsData.add(new XYChart.Data<>((double) i, scraper.get(i).getApg()));
+            assistsData.add(new XYChart.Data<>((double) i, sorter.addSort(GraphType.BYASSISTS, scraper.get(i))));
         }
 
         LineChart.Series<Double, Double> assists = new LineChart.Series<>("Assists Per Game", assistsData);
@@ -227,7 +251,7 @@ public class ChartGenerator {
         ObservableList<XYChart.Data<Double, Double>> reboundsData = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            reboundsData.add(new XYChart.Data<>((double) i, scraper.get(i).getRpg()));
+            reboundsData.add(new XYChart.Data<>((double) i, sorter.addSort(GraphType.BYREBOUNDS, scraper.get(i))));
         }
 
         LineChart.Series<Double, Double> rebounds = new LineChart.Series<>("Rebounds Per Game", reboundsData);
@@ -245,7 +269,7 @@ public class ChartGenerator {
         ObservableList<XYChart.Data<Double, Double>> winshareSeries = FXCollections.observableArrayList();
 
         for(int i = startRank; i <= endRank; i++) {
-            winshareSeries.add(new XYChart.Data<>((double) i, scraper.get(i).getCareerWinShares()));
+            winshareSeries.add(new XYChart.Data<>((double) i, sorter.addSort(GraphType.BYWINSHARES, scraper.get(i))));
         }
 
         LineChart.Series<Double, Double> winshares = new LineChart.Series<>("Total Win Shares", winshareSeries);

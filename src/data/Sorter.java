@@ -1,30 +1,38 @@
 package data;
 
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.PieChart.Data;
+import javafx.scene.chart.NumberAxis;
+
 import java.util.*;
 
 public class Sorter {
-    ArrayList<DataPoint> sortingArray;
-    GraphType sortingBy; 
+    private ArrayList<DataPoint> sortingArray;
+    private GraphType sortingBy;
+    private double currentLowest;
+    private double currentHighest; 
 
     public Sorter() {
-
+        sortingArray = new ArrayList<>();
+        currentHighest = 50;
+        currentLowest = 50;
     }
 
     public double addSort(GraphType graphtype, DataPoint datapoint) {
         this.sortingArray.add(datapoint);
+        System.out.println(datapoint.getPpg());
         if(graphtype == GraphType.BYPOINTS) {
             this.sortingBy = GraphType.BYPOINTS;
             return datapoint.getPpg();
         } else if (graphtype == GraphType.BYASSISTS) {
             this.sortingBy = GraphType.BYASSISTS;
-            return datapoint.getPpg();
+            return datapoint.getApg();
         } else if (graphtype == GraphType.BYREBOUNDS) {
             this.sortingBy = GraphType.BYREBOUNDS;
-            return datapoint.getPpg();
+            return datapoint.getRpg();
         } else if (graphtype == GraphType.BYWINSHARES) {
             this.sortingBy = GraphType.BYWINSHARES;
-            return datapoint.getPpg();
+            return datapoint.getCareerWinShares();
         } else {
             return 0.0;
         }
@@ -47,16 +55,14 @@ public class Sorter {
 
     }
 
-    public ArrayList<DataPoint> sort() {
-        this.sorter();
-        return sortingArray;
-    }
 
    
 
-    public void sorter() {
+    public ArrayList<DataPoint> sort() {
        DataPoint[] temp = new DataPoint[sortingArray.size()];
        mergeSortHelper(0, sortingArray.size() - 1, temp);
+
+       return sortingArray;
    }
   
    private void mergeSortHelper(int from, int to, DataPoint[] temp) {
@@ -74,7 +80,7 @@ public class Sorter {
        int k = from;       // track temp position
       
        while(i <= mid && j <= to) {
-           if(getValue(sortingArray.get(i)) < getValue(sortingArray.get(i))) {
+           if(getValue(sortingArray.get(i)) < getValue(sortingArray.get(j))) {
                temp[k] = sortingArray.get(i);
                i++;
 
@@ -88,25 +94,43 @@ public class Sorter {
        }
       
        // We may left over elements from either list
-       while(i <= mid)
-       {
+       while(i <= mid) {
            temp[k] = sortingArray.get(i);
            i++;
            k++;
        }
       
-       while(j <= to)
-       {
+       while(j <= to){
            temp[k] = sortingArray.get(j);
            j++;
            k++;
        }
       
        // Copy over elements from temp to arr
-       for(k = from; k <= to; k++)
-       {
-           sortingArray.add(k, temp[k]);
+       for(k = from; k <= to; k++) {
+
+           sortingArray.set(k, temp[k]);
        }
    }
+
+
+   public NumberAxis axis(String axisName, NumberAxis prevAxis) {
+        this.sort();
+        
+        System.out.println(newAxis.getTickUnit());
+        if(.getTickUnit() > prevAxis.getTickUnit()) {
+            sortingArray = new ArrayList<>();
+            return newAxis;
+        } else {
+            sortingArray = new ArrayList<>();
+            return prevAxis;
+        }
+
+        NumberAxis newAxis = new NumberAxis(axisName, this.getValue(this.sortingArray.get(0)), this.getValue(this.sortingArray.get(sortingArray.size() - 1)) + 10, (this.getValue(this.sortingArray.get(sortingArray.size() -  1)) - this.getValue(this.sortingArray.get(0)))/25);
+        
+
+
+   }
+   
 }
 
