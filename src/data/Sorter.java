@@ -11,7 +11,7 @@ public class Sorter {
 
     }
 
-    public double sort(GraphType graphtype, DataPoint datapoint) {
+    public double addSort(GraphType graphtype, DataPoint datapoint) {
         this.sortingArray.add(datapoint);
         if(graphtype == GraphType.BYPOINTS) {
             this.sortingBy = GraphType.BYPOINTS;
@@ -28,7 +28,24 @@ public class Sorter {
         } else {
             return 0.0;
         }
-
         
     }
+
+    public double getValue(DataPoint dataPoint) {
+        if(sortingBy == GraphType.BYPOINTS) {
+            return dataPoint.getPpg();
+        } else if(sortingBy == GraphType.BYASSISTS) {
+            return dataPoint.getApg();
+        } else if(sortingBy == GraphType.BYREBOUNDS) {
+            return dataPoint.getRpg();
+        } else if(sortingBy == GraphType.BYWINSHARES) {
+            return dataPoint.getCareerWinShares();
+        } else {
+            return 0.0;
+        }
+
+
+    }
+
+    public 
 }
