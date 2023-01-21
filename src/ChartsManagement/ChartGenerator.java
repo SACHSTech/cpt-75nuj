@@ -107,18 +107,24 @@ public class ChartGenerator {
                     break;
                 
             }
-        } else {
+        } else if(showPoints || showAssists || showRebounds || showWinShares) {
             if(showPoints) {
                 title += "Points, ";
+                
             } if(showAssists) {
                 title += "Assists, ";
+                
             } if(showRebounds) {
                 title += "Rebounds, ";
+                
             } if(showWinShares) {
                 title += "Win Shares, ";
+               
             }
 
-            title += "By Rank";
+            title += "by Rank ";
+
+            
         }
         
 
