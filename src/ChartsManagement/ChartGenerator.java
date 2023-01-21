@@ -72,32 +72,32 @@ public class ChartGenerator {
         if(showRank != 0) {
             lineChartData.add(this.rankSeries());
 
-            NumberAxis xAxis1 = sorter.axis("Stat Value", new NumberAxis("Stat Value", 0, 500, 500/10000));
+            NumberAxis xAxis1 = sorter.axis("Stat Value");
             xAxis = xAxis1;
             yAxis = new NumberAxis("Rank", 0, 500, 1);
         } else {
             if(showPoints) {
                 lineChartData.add(this.pointsSeries(startRank, endRank));
 
-                NumberAxis yAxis1 = sorter.axis("Value", yAxis);
+                NumberAxis yAxis1 = sorter.axis("Value");
                 yAxis = yAxis1;
 
             } if(showAssists) {
                 lineChartData.add(this.assistsSeries(startRank, endRank));
 
-                NumberAxis yAxis1 = sorter.axis("Value", yAxis);
+                NumberAxis yAxis1 = sorter.axis("Value");
                 yAxis = yAxis1;
 
             } if(showRebounds) {
                 lineChartData.add(this.reboundsSeries(startRank, endRank));
 
-                NumberAxis yAxis1 = sorter.axis("Value", yAxis);
+                NumberAxis yAxis1 = sorter.axis("Value");
                 yAxis = yAxis1;
 
             } if(showWinShares) {
                 lineChartData.add(this.winshareSeries(startRank, endRank));
 
-                NumberAxis yAxis1 = sorter.axis("Value", yAxis);
+                NumberAxis yAxis1 = sorter.axis("Value");
                 yAxis = yAxis1;
 
             }

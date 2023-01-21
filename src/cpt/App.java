@@ -7,16 +7,9 @@ import data.CSVScraper;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
-import javafx.geometry.Insets; 
 
 
  
@@ -42,13 +35,10 @@ public class App extends Application {
         if(showLineChart) {
             //adds created linechart to existing stackpane
             
-    
 
             chart.createRankLineChart();
             controller.addChartObject(chart);
            
-
-
        
             layout = new HBox(chart.getCurrentChart(), controller.lineControl());
          
@@ -72,6 +62,10 @@ public class App extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+
+        NumberAxis axis = new NumberAxis("Value", 0, 300, 1);
+        NumberAxis yAxis = new NumberAxis("Value", 0, 300, 5);
+        System.out.println(axis.getTickUnit() + " " + yAxis.getTickUnit());
        
         
     }

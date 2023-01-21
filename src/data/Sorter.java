@@ -114,20 +114,22 @@ public class Sorter {
    }
 
 
-   public NumberAxis axis(String axisName, NumberAxis prevAxis) {
+   public NumberAxis axis(String axisName) {
         this.sort();
         
-        System.out.println(newAxis.getTickUnit());
-        if(.getTickUnit() > prevAxis.getTickUnit()) {
-            sortingArray = new ArrayList<>();
-            return newAxis;
-        } else {
-            sortingArray = new ArrayList<>();
-            return prevAxis;
+        if(this.getValue(this.sortingArray.get(0)) < this.currentLowest) {
+            this.currentLowest = this.getValue(this.sortingArray.get(0));
+            
+        } 
+
+        if(this.getValue(this.sortingArray.get(sortingArray.size() - 1)) + 10 > this.currentHighest) {
+            this.currentHighest = this.getValue(this.sortingArray.get(sortingArray.size() - 1)) + 10;
+            
         }
 
-        NumberAxis newAxis = new NumberAxis(axisName, this.getValue(this.sortingArray.get(0)), this.getValue(this.sortingArray.get(sortingArray.size() - 1)) + 10, (this.getValue(this.sortingArray.get(sortingArray.size() -  1)) - this.getValue(this.sortingArray.get(0)))/25);
+        NumberAxis newAxis = new NumberAxis(axisName, this.currentLowest, this.currentHighest, (this.currentHighest - this.currentLowest)/25);
         
+        return newAxis;
 
 
    }
