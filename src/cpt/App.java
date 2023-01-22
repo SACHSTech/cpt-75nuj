@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.Tab;
 
 
  
@@ -19,7 +21,6 @@ import javafx.stage.Stage;
 public class App extends Application {
     ChartGenerator chart = new ChartGenerator();
 
-    boolean showLineChart = true;
     
 
     /**
@@ -27,31 +28,26 @@ public class App extends Application {
      */
 
     @Override public void start(Stage primaryStage) throws Exception {
-        //Initializes StackPane object
-        HBox layout;
+        
         ChartValueController controller = new ChartValueController();
+        TabPane tabpane = new TabPane();
 
-        //User has toggle which indicates whether they want to display a line or pie chart
-        if(showLineChart) {
-            //adds created linechart to existing stackpane
-            
+        Tab lineChart = new Tab("Line Chart");
+        lineChart.setClosable(false);
 
-            chart.createRankLineChart();
-            controller.addChartObject(chart);
-           
-       
-            layout = new HBox(chart.getCurrentChart(), controller.lineControl());
-         
-            Scene scene = new Scene(layout);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+        chart.createRankLineChart();
+        controller.addChartObject(chart);
+        HBox layoutLineChart = new HBox(chart.getCurrentChart(), controller.lineControl());
 
-            
-        } else {
-            //adds created piechart to existing stackpane
-            //layout.getChildren().add(chart.createPieGraph(startRank, endRank));
-        }
+        lineChart.setContent(layoutLineChart);
 
+
+        
+        tabpane.getTabs().add(lineChart);
+
+        Scene scene = new Scene(tabpane);
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
     
         
@@ -63,9 +59,6 @@ public class App extends Application {
     public static void main(String[] args) {
         launch(args);
 
-        NumberAxis axis = new NumberAxis("Value", 0, 300, 1);
-        NumberAxis yAxis = new NumberAxis("Value", 0, 300, 5);
-        System.out.println(axis.getTickUnit() + " " + yAxis.getTickUnit());
        
         
     }
