@@ -1,6 +1,7 @@
 package ChartsManagement;
  
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -10,6 +11,7 @@ import javafx.scene.control.Slider;
 import javafx.beans.value.*;
 import javafx.scene.control.Button;
 import java.util.*;
+import data.GraphType;
 
 import javafx.event.ActionEvent;
 
@@ -20,13 +22,17 @@ import javafx.event.ActionEvent;
 public class ChartValueController {
 
     private VBox lineControls;
+    private VBox barControls;
     private boolean secondaryPanel;
     private ArrayList<Boolean> rankBooleans;
     private ChartGenerator chartObject;
 
     public ChartValueController () {
         lineControls = new VBox(18);
-        lineControls.setAlignment(Pos.CENTER);
+        lineControls.setPadding(new Insets(100, 50, 50, 50));
+        barControls = new VBox(18);
+        barControls.setAlignment(Pos.CENTER);
+        barControls.setPadding(new Insets(100, 50, 50, 50));
         rankBooleans = new ArrayList<>();
         rankBooleans.add(false);
         rankBooleans.add(false);
@@ -135,6 +141,10 @@ public class ChartValueController {
  
     }
 
+    
+
+    
+    
     public void nextLineChart() {
         this.secondaryPanel = true;
 
@@ -157,9 +167,11 @@ public class ChartValueController {
         Button submit = new Button("Submit");
 
         vbox.getChildren().addAll(yaxis, rb2, rb3, rb4, rb5, submit);
-        vbox.setPrefWidth(500);
+            
+        vbox.setSpacing(5);
+        vbox.setAlignment(Pos.CENTER_LEFT);
       
-        lineControl(vbox);
+        this.addLineControl(vbox);
 
         submit.setOnAction((ActionEvent t) -> {
     
@@ -182,16 +194,97 @@ public class ChartValueController {
                 
 
         });
+     
+
+    }
+
+    public void initialBarControl() {
+        VBox vbox = new VBox();
+        vbox.setSpacing(5);
+        vbox.setAlignment(Pos.CENTER_LEFT);
+
+        Text txt = new Text();
+        txt.setText("Select Stat");
+ 
+        ToggleGroup tg = new ToggleGroup();
+        RadioButton rb1 = new RadioButton("Rank");
+        rb1.setToggleGroup(tg);
+ 
+        RadioButton rb2 = new RadioButton("Points");
+        rb2.setToggleGroup(tg);
+ 
+        RadioButton rb3 = new RadioButton("Assists");
+        rb3.setToggleGroup(tg);
+
+        RadioButton rb4 = new RadioButton("Rebounds");
+        rb4.setToggleGroup(tg);
+
+        RadioButton rb5 = new RadioButton("Win Shares");
+        rb5.setToggleGroup(tg);
+
+
+        Text text1 = new Text();      
+      
+        //Setting the text to be added. 
+        text1.setText("Position");
+
+        Slider position = new Slider(1, 496, 50);
+        position.setShowTickMarks(true);
+        position.setPrefWidth(200);
+        position.setShowTickLabels(true);
+        position.setMajorTickUnit(50f);
+        position.setBlockIncrement(50f);
 
         
 
+        Button submit = new Button("Submit");
+
+ 
+        vbox.getChildren().addAll(txt, rb1, rb2, rb3, rb4, rb5, text1, position, submit);
+        vbox.setPrefWidth(400);
+        vbox.setMinWidth(250);
+        vbox.setMaxWidth(700);
+
+        this.addBarControl(vbox);
+
+        submit.setOnAction((ActionEvent t) -> {
+            if(rb1.isSelected()) {
+                chartObject.changeBarChart(GraphType.BYRANK, (int) position.getValue());
+            } else if(rb2.isSelected()) {  
+                chartObject.changeBarChart(GraphType.BYPOINTS, (int) position.getValue());
+            } else if(rb3.isSelected()) {
+                chartObject.changeBarChart(GraphType.BYASSISTS, (int) position.getValue());
+            } else if(rb4.isSelected()) {
+                chartObject.changeBarChart(GraphType.BYREBOUNDS, (int) position.getValue());
+            } else if(rb5.isSelected()) {
+                chartObject.changeBarChart(GraphType.BYWINSHARES, (int) position.getValue());
+            }
+
+
+
+        });
+        
+ 
     }
 
 
-    public void addLineControl(VBox one) {
-        lineControls.getChildren().addAll(one);
+    public VBox barControl() {
+        initialBarControl();
+        return barControls;
+    }
+
+    
+    public void addBarControl(VBox newBox) {
+        barControls.getChildren().addAll(newBox);
+    }
+
+
+    public void addLineControl(VBox newBox) {
+        lineControls.getChildren().addAll(newBox);
       
     }
+
+    
 
     public VBox lineControl() {
         initialLineControl();

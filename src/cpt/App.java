@@ -44,7 +44,7 @@ public class App extends Application {
         barChart.setClosable(false);
 
         controller.addChartObject(chart);
-        HBox layoutBarChart = new HBox(chart.createContent());
+        HBox layoutBarChart = new HBox(chart.createBarChart(), controller.barControl());
 
         barChart.setContent(layoutBarChart);
 

@@ -25,23 +25,26 @@ public class CSVScraper  {
     
                 //convert array into an arraylist
                 DataPoint datapoint = new DataPoint();
-                if(j != 0) {
+                if(j > 0) {
                   for(int i = 0; i < str.length; i++) {
                      if(!str[i].equals("")) {
                         datapoint.add(str[i]);
+      
                      } else {
                         datapoint.add("-1");
                      }
                      
                      
                   }
+
+                  //add datapoint into arraylist
+                  data.add(datapoint);
+
                 }
 
                 j++;
                 
-    
-                //add arraylist into arraylist
-                data.add(datapoint);
+                
              }
     
              this.data = data;

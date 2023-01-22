@@ -35,6 +35,8 @@ public class ChartGenerator {
     private Sorter sorter;
     private HBox lineChart;
     private HBox barChart;
+    private int barStart;
+    private GraphType barType;
 
     /**
      * Constructor automatically creates a CSVScraper object when created
@@ -48,80 +50,23 @@ public class ChartGenerator {
         this.startRank = 0;
         this.endRank = 0;
         this.showRank = 0;
+        this.barStart = 1;
+        this.barType = GraphType.BYRANK;
         this.sorter = new Sorter();
         this.lineChart = new HBox();
         this.barChart = new HBox();
+
     }
 
-    /*
+    
 
-    public HBox createBarChart() {
-        
-
-        BarChart<String, Double> chart = new BarChart<String, Double>(xAxis, yAxis);
-
-        for(int i = 0; i < 500; i++) {
-            sorter.addSort(GraphType.BYPOINTS, scraper.get(i));
-        }
-
-        DataPoint[] player = new DataPoint[5];
-        String[] playerNames = new String[5];
-        ArrayList<DataPoint> playerList = (ArrayList<DataPoint>)sorter.getArray().clone();
-
-        for(int i = 0; i < 5; i++) {
-            player[i] = playerList.get(i);
-            playerNames[i] = playerList.get(i).getPlayerName();
-        }
-
-
-        
-        XYChart.Series<String, Double> points = new XYChart.Series<String, Double>();
-        points.getData().add(new XYChart.Data<String, Double>(player[0].getPlayerName(), player[0].getPpg()));
-        points.getData().add(new XYChart.Data<String, Double>(player[1].getPlayerName(), player[1].getPpg()));
-        points.getData().add(new XYChart.Data<String, Double>(player[2].getPlayerName(), player[2].getPpg()));
-        points.getData().add(new XYChart.Data<String, Double>(player[3].getPlayerName(), player[3].getPpg()));
-        points.getData().add(new XYChart.Data<String, Double>(player[4].getPlayerName(), player[4].getPpg()));
-
-        XYChart.Series<String, Double> assists = new XYChart.Series<String, Double>();
-        assists.getData().add(new XYChart.Data<String, Double>(player[0].getPlayerName(), player[0].getApg()));
-        assists.getData().add(new XYChart.Data<String, Double>(player[1].getPlayerName(), player[1].getApg()));
-        assists.getData().add(new XYChart.Data<String, Double>(player[2].getPlayerName(), player[2].getApg()));
-        assists.getData().add(new XYChart.Data<String, Double>(player[3].getPlayerName(), player[3].getApg()));
-        assists.getData().add(new XYChart.Data<String, Double>(player[4].getPlayerName(), player[4].getApg()));
-
-        XYChart.Series<String, Double> rebounds = new XYChart.Series<String, Double>();
-        rebounds.getData().add(new XYChart.Data<String, Double>(player[0].getPlayerName(), player[0].getRpg()));
-        rebounds.getData().add(new XYChart.Data<String, Double>(player[1].getPlayerName(), player[1].getRpg()));
-        rebounds.getData().add(new XYChart.Data<String, Double>(player[2].getPlayerName(), player[2].getRpg()));
-        rebounds.getData().add(new XYChart.Data<String, Double>(player[3].getPlayerName(), player[3].getRpg()));
-        rebounds.getData().add(new XYChart.Data<String, Double>(player[4].getPlayerName(), player[4].getRpg()));
-        
-        ObservableList<XYChart.Series<String, Double>> data = FXCollections.observableArrayList();
-
-        data.add(points);
-        data.add(assists);
-        data.add(rebounds);
-
-        chart.getData().addAll(points, rebounds, assists);
-
-        HBox currentChart = new HBox();
-        currentChart.setPrefWidth(1700);
-        currentChart.setMinWidth(1000);
-        currentChart.setMaxWidth(2500);
-
-        currentChart.getChildren().add(chart);
-        return currentChart;
-    }
-
-    */
-
-    public Parent createContent() {
+    public Parent createBarChart() {
         BarChart chart;
         CategoryAxis xAxis;
         NumberAxis yAxis;
 
         for(int i = 0; i < 500; i++) {
-            sorter.addSort(GraphType.BYPOINTS, scraper.get(i));
+            sorter.addSort(barType, scraper.get(i));
         }
 
         DataPoint[] player = new DataPoint[5];
@@ -129,10 +74,12 @@ public class ChartGenerator {
 
         
 
-        int i = 1;
-        for(i = 0; i < 5; i++) {
-            player[i] = playerList.get(499 - i);
+        
+        for(int i = 0; i < 5; i++) {
+            player[i] = playerList.get(500 - barStart - (i));
+            
         }
+
 
         
         String[] playerNames = {player[0].getPlayerName(), player[1].getPlayerName(), player[2].getPlayerName(), player[3].getPlayerName(), player[4].getPlayerName()};
@@ -292,6 +239,12 @@ public class ChartGenerator {
 
         this.createRankLineChart();
 
+    }
+
+    public void changeBarChart(GraphType graphType, int starting) {
+        this.barType = graphType;
+        this.barStart = starting;
+        this.createBarChart();
     }
 
     public void setShowRank(int rank) {
