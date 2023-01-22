@@ -30,22 +30,32 @@ public class App extends Application {
     @Override public void start(Stage primaryStage) throws Exception {
         
         ChartValueController controller = new ChartValueController();
-        TabPane tabpane = new TabPane();
+        
 
         Tab lineChart = new Tab("Line Chart");
         lineChart.setClosable(false);
 
-        chart.createRankLineChart();
         controller.addChartObject(chart);
-        HBox layoutLineChart = new HBox(chart.getCurrentChart(), controller.lineControl());
+        HBox layoutLineChart = new HBox(chart.createRankLineChart(), controller.lineControl());
 
         lineChart.setContent(layoutLineChart);
 
+        Tab barChart = new Tab("Bar Chart");
+        barChart.setClosable(false);
+
+        controller.addChartObject(chart);
+        HBox layoutBarChart = new HBox(chart.createContent());
+
+        barChart.setContent(layoutBarChart);
 
         
-        tabpane.getTabs().add(lineChart);
 
-        Scene scene = new Scene(tabpane);
+
+        
+        TabPane tabpane = new TabPane(lineChart, barChart);
+
+        HBox layout = new HBox(tabpane);
+        Scene scene = new Scene(layout);
         primaryStage.setScene(scene);
         primaryStage.show();
 

@@ -105,6 +105,10 @@ public class DataPoint {
         return this.careerWinShares;
     }
 
+    public String getPlayerName() {
+        return this.playerName;
+    }
+
 
     
 

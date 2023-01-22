@@ -14,13 +14,12 @@ public class Sorter {
 
     public Sorter() {
         sortingArray = new ArrayList<>();
-        currentHighest = 50;
-        currentLowest = 50;
+        currentHighest = 15;
+        currentLowest = 15;
     }
 
     public double addSort(GraphType graphtype, DataPoint datapoint) {
         this.sortingArray.add(datapoint);
-        System.out.println(datapoint.getPpg());
         if(graphtype == GraphType.BYPOINTS) {
             this.sortingBy = GraphType.BYPOINTS;
             return datapoint.getPpg();
@@ -122,16 +121,26 @@ public class Sorter {
             
         } 
 
-        if(this.getValue(this.sortingArray.get(sortingArray.size() - 1)) + 10 > this.currentHighest) {
-            this.currentHighest = this.getValue(this.sortingArray.get(sortingArray.size() - 1)) + 10;
+        if(this.getValue(this.sortingArray.get(sortingArray.size() - 1)) + 5 > this.currentHighest) {
+            this.currentHighest = this.getValue(this.sortingArray.get(sortingArray.size() - 1)) + 5;
             
         }
 
         NumberAxis newAxis = new NumberAxis(axisName, this.currentLowest, this.currentHighest, (this.currentHighest - this.currentLowest)/25);
         
+
+
         return newAxis;
 
 
+   }
+
+   public ArrayList<DataPoint> getArray() {
+        this.sort();
+        ArrayList<DataPoint> returnArray = (ArrayList<DataPoint>) sortingArray.clone();
+        sortingArray = new ArrayList<>();
+
+        return returnArray;
    }
    
 }

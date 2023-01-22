@@ -103,8 +103,11 @@ public class ChartValueController {
 
  
         vbox.getChildren().addAll(txt, rb1, rb2, rb3, rb4, rb5, text, fromSlider, text1, toSlider, submit);
-      
-        lineControl(vbox);
+        vbox.setPrefWidth(400);
+        vbox.setMinWidth(250);
+        vbox.setMaxWidth(700);
+
+        this.addLineControl(vbox);
 
         submit.setOnAction((ActionEvent t) -> {
             if (fromSlider.getValue() < toSlider.getValue()) {
@@ -154,9 +157,7 @@ public class ChartValueController {
         Button submit = new Button("Submit");
 
         vbox.getChildren().addAll(yaxis, rb2, rb3, rb4, rb5, submit);
-            
-        vbox.setSpacing(5);
-        vbox.setAlignment(Pos.CENTER_LEFT);
+        vbox.setPrefWidth(500);
       
         lineControl(vbox);
 
@@ -187,7 +188,7 @@ public class ChartValueController {
     }
 
 
-    public void lineControl(VBox one) {
+    public void addLineControl(VBox one) {
         lineControls.getChildren().addAll(one);
       
     }
@@ -209,8 +210,6 @@ public class ChartValueController {
     public void addChartObject(ChartGenerator chart) {
         this.chartObject = chart;
     }
-
-    
 
 }
 

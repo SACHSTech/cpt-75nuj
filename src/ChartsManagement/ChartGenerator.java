@@ -6,10 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.*;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import java.io.*;
@@ -17,6 +14,7 @@ import java.util.*;
 import javafx.scene.layout.HBox;
 import data.Sorter;
 import data.GraphType;
+import data.DataPoint;
 
 
 import data.CSVScraper;  
@@ -34,8 +32,9 @@ public class ChartGenerator {
     private CSVScraper scraper;
     private int startRank;
     private int endRank;
-    private HBox currentChart;
     private Sorter sorter;
+    private HBox lineChart;
+    private HBox barChart;
 
     /**
      * Constructor automatically creates a CSVScraper object when created
@@ -46,11 +45,132 @@ public class ChartGenerator {
         this.showAssists = false;
         this.showWinShares = false;
         this.showRebounds = false;
-        this.currentChart = new HBox();
         this.startRank = 0;
         this.endRank = 0;
         this.showRank = 0;
         this.sorter = new Sorter();
+        this.lineChart = new HBox();
+        this.barChart = new HBox();
+    }
+
+    /*
+
+    public HBox createBarChart() {
+        
+
+        BarChart<String, Double> chart = new BarChart<String, Double>(xAxis, yAxis);
+
+        for(int i = 0; i < 500; i++) {
+            sorter.addSort(GraphType.BYPOINTS, scraper.get(i));
+        }
+
+        DataPoint[] player = new DataPoint[5];
+        String[] playerNames = new String[5];
+        ArrayList<DataPoint> playerList = (ArrayList<DataPoint>)sorter.getArray().clone();
+
+        for(int i = 0; i < 5; i++) {
+            player[i] = playerList.get(i);
+            playerNames[i] = playerList.get(i).getPlayerName();
+        }
+
+
+        
+        XYChart.Series<String, Double> points = new XYChart.Series<String, Double>();
+        points.getData().add(new XYChart.Data<String, Double>(player[0].getPlayerName(), player[0].getPpg()));
+        points.getData().add(new XYChart.Data<String, Double>(player[1].getPlayerName(), player[1].getPpg()));
+        points.getData().add(new XYChart.Data<String, Double>(player[2].getPlayerName(), player[2].getPpg()));
+        points.getData().add(new XYChart.Data<String, Double>(player[3].getPlayerName(), player[3].getPpg()));
+        points.getData().add(new XYChart.Data<String, Double>(player[4].getPlayerName(), player[4].getPpg()));
+
+        XYChart.Series<String, Double> assists = new XYChart.Series<String, Double>();
+        assists.getData().add(new XYChart.Data<String, Double>(player[0].getPlayerName(), player[0].getApg()));
+        assists.getData().add(new XYChart.Data<String, Double>(player[1].getPlayerName(), player[1].getApg()));
+        assists.getData().add(new XYChart.Data<String, Double>(player[2].getPlayerName(), player[2].getApg()));
+        assists.getData().add(new XYChart.Data<String, Double>(player[3].getPlayerName(), player[3].getApg()));
+        assists.getData().add(new XYChart.Data<String, Double>(player[4].getPlayerName(), player[4].getApg()));
+
+        XYChart.Series<String, Double> rebounds = new XYChart.Series<String, Double>();
+        rebounds.getData().add(new XYChart.Data<String, Double>(player[0].getPlayerName(), player[0].getRpg()));
+        rebounds.getData().add(new XYChart.Data<String, Double>(player[1].getPlayerName(), player[1].getRpg()));
+        rebounds.getData().add(new XYChart.Data<String, Double>(player[2].getPlayerName(), player[2].getRpg()));
+        rebounds.getData().add(new XYChart.Data<String, Double>(player[3].getPlayerName(), player[3].getRpg()));
+        rebounds.getData().add(new XYChart.Data<String, Double>(player[4].getPlayerName(), player[4].getRpg()));
+        
+        ObservableList<XYChart.Series<String, Double>> data = FXCollections.observableArrayList();
+
+        data.add(points);
+        data.add(assists);
+        data.add(rebounds);
+
+        chart.getData().addAll(points, rebounds, assists);
+
+        HBox currentChart = new HBox();
+        currentChart.setPrefWidth(1700);
+        currentChart.setMinWidth(1000);
+        currentChart.setMaxWidth(2500);
+
+        currentChart.getChildren().add(chart);
+        return currentChart;
+    }
+
+    */
+
+    public Parent createContent() {
+        BarChart chart;
+        CategoryAxis xAxis;
+        NumberAxis yAxis;
+
+        for(int i = 0; i < 500; i++) {
+            sorter.addSort(GraphType.BYPOINTS, scraper.get(i));
+        }
+
+        DataPoint[] player = new DataPoint[5];
+        ArrayList<DataPoint> playerList = (ArrayList<DataPoint>) sorter.getArray().clone();
+
+        
+
+        int i = 1;
+        for(i = 0; i < 5; i++) {
+            player[i] = playerList.get(499 - i);
+        }
+
+        
+        String[] playerNames = {player[0].getPlayerName(), player[1].getPlayerName(), player[2].getPlayerName(), player[3].getPlayerName(), player[4].getPlayerName()};
+        xAxis = new CategoryAxis();
+        xAxis.setCategories(FXCollections.<String>observableArrayList(playerNames));
+        yAxis = new NumberAxis("Stat Value", 0.0d, 50.0d, 5.0d);
+        ObservableList<BarChart.Series> barChartData =
+            FXCollections.observableArrayList(
+                new BarChart.Series("Points",
+                                    FXCollections.observableArrayList(
+                    new BarChart.Data(player[0].getPlayerName(), player[0].getPpg()),
+                    new BarChart.Data(player[1].getPlayerName(), player[1].getPpg()),
+                    new BarChart.Data(player[2].getPlayerName(), player[1].getPpg()),
+                    new BarChart.Data(player[3].getPlayerName(), player[1].getPpg()),
+                    new BarChart.Data(player[4].getPlayerName(), player[4].getPpg()))),
+                new BarChart.Series("Assists",
+                                    FXCollections.observableArrayList(
+                    new BarChart.Data(player[0].getPlayerName(), player[0].getApg()),
+                    new BarChart.Data(player[1].getPlayerName(), player[1].getApg()),
+                    new BarChart.Data(player[2].getPlayerName(), player[1].getApg()),
+                    new BarChart.Data(player[3].getPlayerName(), player[1].getApg()),
+                    new BarChart.Data(player[4].getPlayerName(), player[4].getApg()))),
+                    new BarChart.Series("Rebounds",
+                                    FXCollections.observableArrayList(
+                    new BarChart.Data(player[0].getPlayerName(), player[0].getRpg()),
+                    new BarChart.Data(player[1].getPlayerName(), player[1].getRpg()),
+                    new BarChart.Data(player[2].getPlayerName(), player[1].getRpg()),
+                    new BarChart.Data(player[3].getPlayerName(), player[1].getRpg()),
+                    new BarChart.Data(player[4].getPlayerName(), player[4].getRpg())))
+            );
+        chart = new BarChart(xAxis, yAxis, barChartData, 25.0d);
+
+        chart.setPrefWidth(2500);
+
+        this.barChart.getChildren().clear();
+        this.barChart.getChildren().add(chart);
+
+        return this.barChart;
     }
 
 
@@ -59,7 +179,11 @@ public class ChartGenerator {
      * @param startRank starting rank plotted on graph
      * @param endRank ending rank plotted on graph
      */
-    public void createRankLineChart() {
+    public HBox createRankLineChart() {
+        HBox currentChart = new HBox();
+        currentChart.setPrefWidth(1700);
+        currentChart.setMinWidth(1000);
+        currentChart.setMaxWidth(2500);
         NumberAxis xAxis = new NumberAxis("Rank", startRank, endRank, 1);
         NumberAxis yAxis = new NumberAxis("Value", 0, 100, 0.1);
         
@@ -102,9 +226,9 @@ public class ChartGenerator {
 
             }
         }
-       
 
         
+       
 
         //create and return new LineChart object
         LineChart chart = new LineChart(xAxis, yAxis, lineChartData);
@@ -144,17 +268,20 @@ public class ChartGenerator {
                
             }
 
-            title += "by Rank ";
+            title += "by Rank";
 
             
         }
-        
+        this.sorter = new Sorter();
 
         title += " on SLAM's 2011 Top 500 Players";
 
         chart.setTitle(title);
-        this.currentChart.getChildren().clear();
-        this.currentChart.getChildren().add(chart);
+        chart.setPrefWidth(2500);
+        this.lineChart.getChildren().clear();
+        this.lineChart.getChildren().add(chart);
+
+        return lineChart;
     }
     
     public void updateBooleans(boolean showPoints, boolean showAssists, boolean showRebounds, boolean showWinShares) {
@@ -277,9 +404,6 @@ public class ChartGenerator {
         return winshares;
     }
 
-    public HBox getCurrentChart() {
-        return currentChart;
-    }
 
     public void setStartRank(int startRank) {
         this.startRank = startRank;
