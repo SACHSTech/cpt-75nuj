@@ -102,7 +102,7 @@ public class ChartGenerator {
                     new BarChart.Data(player[2].getPlayerName(), player[1].getApg()),
                     new BarChart.Data(player[3].getPlayerName(), player[1].getApg()),
                     new BarChart.Data(player[4].getPlayerName(), player[4].getApg()))),
-                    new BarChart.Series("Rebounds",
+                new BarChart.Series("Rebounds",
                                     FXCollections.observableArrayList(
                     new BarChart.Data(player[0].getPlayerName(), player[0].getRpg()),
                     new BarChart.Data(player[1].getPlayerName(), player[1].getRpg()),
@@ -278,7 +278,7 @@ public class ChartGenerator {
     public LineChart.Series<Double, Double> rankSeries() {
         ObservableList<XYChart.Data<Double, Double>> rankData = FXCollections.observableArrayList();
 
-        for(int i = 0; i <= 500; i++) {
+        for(int i = 0; i < 500; i++) {
             switch(this.showRank) {
                 case 1:
                     rankData.add(new XYChart.Data<>(sorter.addSort(GraphType.BYPOINTS, scraper.get(i)), (double) scraper.get(i).getRank()));

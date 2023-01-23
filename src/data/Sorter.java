@@ -137,6 +137,9 @@ public class Sorter {
 
    public ArrayList<DataPoint> getArray() {
         this.sort();
+
+
+        
         ArrayList<DataPoint> returnArray = (ArrayList<DataPoint>) sortingArray.clone();
         sortingArray = new ArrayList<>();
 

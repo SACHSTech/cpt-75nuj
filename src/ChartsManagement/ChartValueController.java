@@ -117,25 +117,33 @@ public class ChartValueController {
 
         submit.setOnAction((ActionEvent t) -> {
             if (fromSlider.getValue() < toSlider.getValue()) {
+                
                 chartObject.setEndRank((int)toSlider.getValue());
                 chartObject.setStartRank((int)fromSlider.getValue());
-            }
-            
-            if(rb2.isSelected()) {
-                chartObject.setShowRank(1);
-            } else if(rb3.isSelected()){
-                chartObject.setShowRank(2);
-            } else if(rb4.isSelected()) {
-                chartObject.setShowRank(3);
-            } else if(rb5.isSelected()) {
-                chartObject.setShowRank(4);
+
+    
+                if(!secondaryPanel && rb1.isSelected() ) {
+                    chartObject.setShowRank(0);
+                    nextLineChart();
+                } 
+                
             } else {
-                chartObject.setShowRank(0);
+                if(rb2.isSelected()) {
+                    chartObject.setShowRank(1);
+                } else if(rb3.isSelected()){
+                    chartObject.setShowRank(2);
+                } else if(rb4.isSelected()) {
+                    chartObject.setShowRank(3);
+                } else if(rb5.isSelected()) {
+                    chartObject.setShowRank(4);
+                } else {
+                    
+                }
             }
 
-            if(!secondaryPanel && rb1.isSelected() ) {
-                nextLineChart();
-            } 
+            
+            
+            
         });
         
  
@@ -219,8 +227,6 @@ public class ChartValueController {
         RadioButton rb4 = new RadioButton("Rebounds");
         rb4.setToggleGroup(tg);
 
-        RadioButton rb5 = new RadioButton("Win Shares");
-        rb5.setToggleGroup(tg);
 
 
         Text text1 = new Text();      
@@ -240,7 +246,7 @@ public class ChartValueController {
         Button submit = new Button("Submit");
 
  
-        vbox.getChildren().addAll(txt, rb1, rb2, rb3, rb4, rb5, text1, position, submit);
+        vbox.getChildren().addAll(txt, rb1, rb2, rb3, rb4, text1, position, submit);
         vbox.setPrefWidth(400);
         vbox.setMinWidth(250);
         vbox.setMaxWidth(700);
@@ -256,8 +262,6 @@ public class ChartValueController {
                 chartObject.changeBarChart(GraphType.BYASSISTS, (int) position.getValue());
             } else if(rb4.isSelected()) {
                 chartObject.changeBarChart(GraphType.BYREBOUNDS, (int) position.getValue());
-            } else if(rb5.isSelected()) {
-                chartObject.changeBarChart(GraphType.BYWINSHARES, (int) position.getValue());
             }
 
 
