@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import data.Sorter;
 import data.GraphType;
 import data.DataPoint;
+import javafx.geometry.Insets;
 
 
 import data.CSVScraper;  
@@ -54,38 +55,49 @@ public class ChartGenerator {
         this.barType = GraphType.BYRANK;
         this.sorter = new Sorter();
         this.lineChart = new HBox();
+        this.lineChart.setPadding(new Insets(50));
         this.barChart = new HBox();
-
+        this.barChart.setPadding(new Insets(50));
     }
 
     
+    /**
+     * Creates Bar Chart based on inputs from user
+     * @return Parent chart 
+     */
 
     public Parent createBarChart() {
         BarChart chart;
         CategoryAxis xAxis;
         NumberAxis yAxis;
 
+        //adds objects into sorter object
         for(int i = 0; i < 500; i++) {
             sorter.addSort(barType, scraper.get(i));
         }
 
         DataPoint[] player = new DataPoint[5];
+
+        //gets sorted array from sorter object
         ArrayList<DataPoint> playerList = (ArrayList<DataPoint>) sorter.getArray().clone();
 
         
 
-        
+        //puts 5 diplayed players into array
         for(int i = 0; i < 5; i++) {
             player[i] = playerList.get(500 - barStart - (i));
             
         }
 
 
-        
+        //puts players names into axis
         String[] playerNames = {player[0].getPlayerName(), player[1].getPlayerName(), player[2].getPlayerName(), player[3].getPlayerName(), player[4].getPlayerName()};
         xAxis = new CategoryAxis();
         xAxis.setCategories(FXCollections.<String>observableArrayList(playerNames));
         yAxis = new NumberAxis("Stat Value", 0.0d, 50.0d, 5.0d);
+
+
+        //creates bar chart for given players
         ObservableList<BarChart.Series> barChartData =
             FXCollections.observableArrayList(
                 new BarChart.Series("Points",
@@ -114,9 +126,22 @@ public class ChartGenerator {
 
         chart.setPrefWidth(2500);
 
+        if(barType == GraphType.BYRANK) {
+            chart.setTitle("Stats of " + (barStart) + " to " + (barStart + 4) + " Ranked Players");
+        } else if(barType == GraphType.BYPOINTS) {
+            chart.setTitle("Stats of " + (barStart) + " to " + (barStart + 4) + " Scorers");
+        } else if(barType == GraphType.BYASSISTS) {
+            chart.setTitle("Stats of " + (barStart) + " to " + (barStart + 4) + " Assisters");
+        } else if(barType == GraphType.BYREBOUNDS) {
+            chart.setTitle("Stats of " + (barStart) + " to " + (barStart + 4) + " Rebounders");
+        }
+         
+        //adds chart to hbox
         this.barChart.getChildren().clear();
         this.barChart.getChildren().add(chart);
 
+
+        //returns hbox
         return this.barChart;
     }
 
@@ -127,10 +152,14 @@ public class ChartGenerator {
      * @param endRank ending rank plotted on graph
      */
     public HBox createRankLineChart() {
+        //creates hbox object for linechart
         HBox currentChart = new HBox();
         currentChart.setPrefWidth(1700);
         currentChart.setMinWidth(1000);
         currentChart.setMaxWidth(2500);
+        currentChart.setPadding(new Insets(50));
+
+        //creates default axis
         NumberAxis xAxis = new NumberAxis("Rank", startRank, endRank, 1);
         NumberAxis yAxis = new NumberAxis("Value", 0, 100, 0.1);
         
@@ -142,11 +171,13 @@ public class ChartGenerator {
         //add lines depending on selected stats
         if(showRank != 0) {
             lineChartData.add(this.rankSeries());
-
+            
+            //creates appropriate axis
             NumberAxis xAxis1 = sorter.axis("Stat Value");
             xAxis = xAxis1;
             yAxis = new NumberAxis("Rank", 0, 500, 1);
         } else {
+            //adds stat series to linechart and updates axis based on user input
             if(showPoints) {
                 lineChartData.add(this.pointsSeries(startRank, endRank));
 
@@ -219,10 +250,12 @@ public class ChartGenerator {
 
             
         }
+        //resets sorter object
         this.sorter = new Sorter();
 
         title += " on SLAM's 2011 Top 500 Players";
 
+        //edits chart properties then adds it to hbox
         chart.setTitle(title);
         chart.setPrefWidth(2500);
         this.lineChart.getChildren().clear();
@@ -231,6 +264,13 @@ public class ChartGenerator {
         return lineChart;
     }
     
+    /**
+     * Update whether chart contains following series
+     * @param boolean showPoints 
+     * @param boolean showAssists
+     * @param boolean showRebounds
+     * @param boolean showWinShares
+     */
     public void updateBooleans(boolean showPoints, boolean showAssists, boolean showRebounds, boolean showWinShares) {
         this.showPoints = showPoints;
         this.showAssists = showAssists;
@@ -241,14 +281,28 @@ public class ChartGenerator {
 
     }
 
+
+    /**
+     * Changes bar chart when user requests
+     * @param graphType
+     * @param starting
+     */
+
     public void changeBarChart(GraphType graphType, int starting) {
         this.barType = graphType;
         this.barStart = starting;
         this.createBarChart();
     }
 
+
+    /**
+     * Changes (points/rebounds/assists/winshares) vs rank
+     * @param rank
+     */
+
     public void setShowRank(int rank) {
         this.showRank = rank;
+        //creates type of linechart 
         if(rank != 0) {
             this.createRankLineChart();
         }
@@ -263,7 +317,8 @@ public class ChartGenerator {
     public LineChart.Series<Double, Double> pointsSeries(int startRank, int endRank) {
         ObservableList<XYChart.Data<Double, Double>> pointsData = FXCollections.observableArrayList();
 
-        for(int i = startRank; i <= endRank; i++) {
+        //loops through DataPoint object and adds data to series
+        for(int i = startRank; i < endRank; i++) {
             pointsData.add(new XYChart.Data<>((double) i, sorter.addSort(GraphType.BYPOINTS, scraper.get(i))));
 
             
@@ -274,10 +329,14 @@ public class ChartGenerator {
         return points;
     }
 
-    
+    /**
+     * Creates series for (points/assists/rebounds/winshares) vs rank
+     * @return LineChart.Series<Double, Double> rankData
+     */
     public LineChart.Series<Double, Double> rankSeries() {
         ObservableList<XYChart.Data<Double, Double>> rankData = FXCollections.observableArrayList();
 
+        //Creates dataSeries based on type of graph user wants to see
         for(int i = 0; i < 500; i++) {
             switch(this.showRank) {
                 case 1:
@@ -312,7 +371,8 @@ public class ChartGenerator {
     public LineChart.Series<Double, Double> assistsSeries(int startRank, int endRank) {
         ObservableList<XYChart.Data<Double, Double>> assistsData = FXCollections.observableArrayList();
 
-        for(int i = startRank; i <= endRank; i++) {
+        //loops through DataPoint object and adds data to series
+        for(int i = startRank; i < endRank; i++) {
             assistsData.add(new XYChart.Data<>((double) i, sorter.addSort(GraphType.BYASSISTS, scraper.get(i))));
         }
 
@@ -330,7 +390,9 @@ public class ChartGenerator {
     public LineChart.Series<Double, Double> reboundsSeries(int startRank, int endRank) {
         ObservableList<XYChart.Data<Double, Double>> reboundsData = FXCollections.observableArrayList();
 
-        for(int i = startRank; i <= endRank; i++) {
+
+        //loops through DataPoint object and adds data to series
+        for(int i = startRank; i < endRank; i++) {
             reboundsData.add(new XYChart.Data<>((double) i, sorter.addSort(GraphType.BYREBOUNDS, scraper.get(i))));
         }
 
@@ -348,7 +410,9 @@ public class ChartGenerator {
     public LineChart.Series<Double, Double> winshareSeries(int startRank, int endRank) {
         ObservableList<XYChart.Data<Double, Double>> winshareSeries = FXCollections.observableArrayList();
 
-        for(int i = startRank; i <= endRank; i++) {
+        //loops through DataPoint object and adds data to series
+
+        for(int i = startRank; i < endRank; i++) {
             winshareSeries.add(new XYChart.Data<>((double) i, sorter.addSort(GraphType.BYWINSHARES, scraper.get(i))));
         }
 
@@ -357,10 +421,22 @@ public class ChartGenerator {
         return winshares;
     }
 
+    /**
+     * Changes the rank the chart starts at when in (rank vs points/assists/rebounds)
+     * @param int startRank 
+     */
+
 
     public void setStartRank(int startRank) {
         this.startRank = startRank;
+        
     }
+
+
+    /**
+     * Changes the rank the chart ends at when in (rank vs points/assists/rebounds)
+     * @param int endRank 
+     */
 
     public void setEndRank(int endRank) {
         this.endRank = endRank;
