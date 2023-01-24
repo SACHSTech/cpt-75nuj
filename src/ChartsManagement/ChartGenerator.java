@@ -319,7 +319,6 @@ public class ChartGenerator {
 
         //loops through DataPoint object and adds data to series
         for(int i = startRank - 1; i < endRank; i++) {
-            System.out.println(scraper.get(i).getPlayerName());
             pointsData.add(new XYChart.Data<>((double) i + 1, sorter.addSort(GraphType.BYPOINTS, scraper.get(i))));
 
             
