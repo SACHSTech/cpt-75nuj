@@ -6,7 +6,7 @@ import java.util.*;
 
 
 public class CSVScraper  {
-    List<DataPoint> data;
+    private List<DataPoint> data;
 
     public CSVScraper() {
          //create buffered reader for stats file

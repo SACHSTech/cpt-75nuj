@@ -27,6 +27,11 @@ public class DataPoint {
         this.addingTag = 0;
     }
 
+
+    /**
+     * adds value to properties based on previously added values
+     * @param value
+     */
     public void add(String value) {
         switch(addingTag) {
             case 0:
@@ -85,25 +90,50 @@ public class DataPoint {
         this.addingTag++;
     }
 
+    /**
+     * gets rank of datapoint
+     * @return int rank
+     */
     public int getRank() {
         return this.rank;
     }
 
+    /**
+     * gets ppg of datapoint
+     * @return int ppg
+     */
     public double getPpg() {
         return this.ppg;
     }
 
+    /**
+     * gets rpg of datapoint
+     * @return int rpg
+     */
     public double getRpg() {
         return this.rpg;
     }
 
+    /**
+     * gets apg of datapoint
+     * @return int apg
+     */
     public double getApg() {
         return this.apg;
     }
 
+    /**
+     * gets careerWinShares of datapoint
+     * @return int careerWinShares
+     */
     public double getCareerWinShares() {
         return this.careerWinShares;
     }
+    
+    /**
+     * gets playerName 
+     * @return String playerName
+     */
 
     public String getPlayerName() {
         return this.playerName;

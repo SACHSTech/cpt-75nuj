@@ -19,7 +19,6 @@ import javafx.scene.control.Tab;
  * A line chart demonstrating a CategoryAxis implementation.
  */
 public class App extends Application {
-    ChartGenerator chart = new ChartGenerator();
 
     
 
@@ -28,22 +27,26 @@ public class App extends Application {
      */
 
     @Override public void start(Stage primaryStage) throws Exception {
-        
+        //creates objects to create chart/controls
+        ChartGenerator chart = new ChartGenerator();        
         ChartValueController controller = new ChartValueController();
+        controller.addChartObject(chart);
         
-
+        //creates tabs for linechart 
         Tab lineChart = new Tab("Line Chart");
         lineChart.setClosable(false);
 
-        controller.addChartObject(chart);
+        //adds linechart and controls to hbox within tab
         HBox layoutLineChart = new HBox(chart.createRankLineChart(), controller.lineControl());
 
+        //adds linechart content to tab
         lineChart.setContent(layoutLineChart);
 
+        //creates tabs for barcharts
         Tab barChart = new Tab("Bar Chart");
         barChart.setClosable(false);
 
-        controller.addChartObject(chart);
+        //adds barchart and controls to hbox within tab
         HBox layoutBarChart = new HBox(chart.createBarChart(), controller.barControl());
 
         barChart.setContent(layoutBarChart);
@@ -51,12 +54,14 @@ public class App extends Application {
         
 
 
-        
+        //combines tab panes and puts it into stage 
         TabPane tabpane = new TabPane(lineChart, barChart);
 
         HBox layout = new HBox(tabpane);
         Scene scene = new Scene(layout);
         primaryStage.setScene(scene);
+
+        primaryStage.setTitle("SLAM Top 500 Charting");
         primaryStage.show();
 
     

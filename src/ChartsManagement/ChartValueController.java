@@ -27,6 +27,8 @@ public class ChartValueController {
     private ArrayList<Boolean> rankBooleans;
     private ChartGenerator chartObject;
 
+    
+
     public ChartValueController () {
         lineControls = new VBox(18);
         lineControls.setPadding(new Insets(100, 50, 50, 50));
@@ -39,15 +41,25 @@ public class ChartValueController {
         rankBooleans.add(false);
         rankBooleans.add(false);
     }
+
+    /**
+     * Creates prompt for input
+     */
  
     public void initialLineControl() {
+        //Creates VBox to put linechart object to put in
         VBox vbox = new VBox();
         vbox.setSpacing(5);
         vbox.setAlignment(Pos.CENTER_LEFT);
+        
 
+        //Create elements to put into control box
+
+        //Header
         Text txt = new Text();
         txt.setText("X-Axis");
- 
+
+        //Toggle Group with buttons with it 
         ToggleGroup tg = new ToggleGroup();
         RadioButton rb1 = new RadioButton("Rank");
         rb1.setToggleGroup(tg);
@@ -71,6 +83,8 @@ public class ChartValueController {
         //Setting the text to be added. 
         text.setText("Starting Rank"); 
 
+        //Sliders for Ranks to show on graph
+
         Slider fromSlider = new Slider(1, 500, 50);
         fromSlider.setShowTickMarks(true);
         fromSlider.setPrefWidth(200);
@@ -92,6 +106,9 @@ public class ChartValueController {
         toSlider.setBlockIncrement(50f);
         toSlider.setDisable(true);
 
+
+        
+        //when the rank button is clicked, then enable rank sliders
         rb1.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> obs, Boolean wasPreviouslySelected, Boolean isNowSelected) {
@@ -105,29 +122,36 @@ public class ChartValueController {
             }
         });
 
+        //submit button
+
         Button submit = new Button("Submit");
 
- 
+        //add all elements into vbo 
         vbox.getChildren().addAll(txt, rb1, rb2, rb3, rb4, rb5, text, fromSlider, text1, toSlider, submit);
         vbox.setPrefWidth(400);
         vbox.setMinWidth(250);
         vbox.setMaxWidth(700);
 
+        //add vbox into linecontrol vbox
         this.addLineControl(vbox);
 
+        //when submit button is pressed, either create new graph, or create next prompt
         submit.setOnAction((ActionEvent t) -> {
+            //if the slider is less than the slide, then chart object rank gets converted to int and get value
             if (fromSlider.getValue() < toSlider.getValue()) {
                 
                 chartObject.setEndRank((int)toSlider.getValue());
                 chartObject.setStartRank((int)fromSlider.getValue());
 
-    
+                //if the next panel wasn't enabled, and the rank slider was selected, then create next prompt
                 if(!secondaryPanel && rb1.isSelected() ) {
                     chartObject.setShowRank(0);
                     nextLineChart();
                 } 
                 
             } else {
+
+                //otherwise, create new linechart with (points/assists/rebounds/winshares) vs rank
                 if(rb2.isSelected()) {
                     chartObject.setShowRank(1);
                 } else if(rb3.isSelected()){
@@ -151,10 +175,14 @@ public class ChartValueController {
 
     
 
-    
+    /**
+     * creates next prompt if user is looking for rank vs (points/assists/rebounds/winshares)
+     */
     
     public void nextLineChart() {
         this.secondaryPanel = true;
+
+        //creates prompt elements
 
         
         RadioButton rb2 = new RadioButton("Points");
@@ -174,13 +202,20 @@ public class ChartValueController {
 
         Button submit = new Button("Submit");
 
+        //adds elements into vbox
+
         vbox.getChildren().addAll(yaxis, rb2, rb3, rb4, rb5, submit);
             
         vbox.setSpacing(5);
         vbox.setAlignment(Pos.CENTER_LEFT);
+
+
+        //add vbox to stage
       
         this.addLineControl(vbox);
 
+
+        //when teh button is pressed, update graph according to elements selected
         submit.setOnAction((ActionEvent t) -> {
     
             rankBooleans.add(0, rb2.isSelected());
@@ -193,7 +228,9 @@ public class ChartValueController {
             boolean two = this.getRankBooleans().get(1);
             boolean three = this.getRankBooleans().get(2);
             boolean four = this.getRankBooleans().get(3);
-            
+
+
+            //if any of the variables are selected, then update graph            
             if(one || two || three || four) {
                 chartObject.updateBooleans(one, two, three, four);
                 this.secondaryPanel = false;
@@ -206,10 +243,17 @@ public class ChartValueController {
 
     }
 
+    /**
+     * creates initial bar chart controls
+     */
+
     public void initialBarControl() {
+        //creates vbox for lineControls
         VBox vbox = new VBox();
         vbox.setSpacing(5);
         vbox.setAlignment(Pos.CENTER_LEFT);
+
+        //creates elements for controls
 
         Text txt = new Text();
         txt.setText("Select Stat");
@@ -245,14 +289,17 @@ public class ChartValueController {
 
         Button submit = new Button("Submit");
 
- 
+        //adds elements to vbox
         vbox.getChildren().addAll(txt, rb1, rb2, rb3, rb4, text1, position, submit);
         vbox.setPrefWidth(400);
         vbox.setMinWidth(250);
         vbox.setMaxWidth(700);
 
+        //adds vbox to stage
         this.addBarControl(vbox);
 
+
+        //when submitted, change graph
         submit.setOnAction((ActionEvent t) -> {
             if(rb1.isSelected()) {
                 chartObject.changeBarChart(GraphType.BYRANK, (int) position.getValue());
@@ -271,39 +318,60 @@ public class ChartValueController {
  
     }
 
-
+    /**
+     * adds vbox to main stage
+     * @return VBox barControls vbox with controls
+     */
     public VBox barControl() {
         initialBarControl();
         return barControls;
     }
 
-    
+    /**
+     * adds inputted vbox to object's overall vbox for bar charts
+     */
     public void addBarControl(VBox newBox) {
         barControls.getChildren().addAll(newBox);
     }
 
-
+    /**
+     * adds inputted vbox to object's overall vbox for line charts
+     */
     public void addLineControl(VBox newBox) {
         lineControls.getChildren().addAll(newBox);
       
     }
 
     
-
+    /**
+     * initializes line controls 
+     * @return  VBox lineControls vbox containing line controls
+     */
     public VBox lineControl() {
         initialLineControl();
         return lineControls;
     }
 
+    /**
+     * resets line controls
+     */
     public void reset() {
         lineControls.getChildren().clear();
         lineControl();
     }
 
+    /**
+     * gets boolean values if needed by ChartGenerator file
+     * @return ArrayList<Boolean> rankBooleans
+     */
     public ArrayList<Boolean> getRankBooleans() {
         return rankBooleans;
     }
 
+    /**
+     * connects ChartGenerator object to ChartValueController object
+     * @param chart
+     */
     public void addChartObject(ChartGenerator chart) {
         this.chartObject = chart;
     }
