@@ -318,8 +318,9 @@ public class ChartGenerator {
         ObservableList<XYChart.Data<Double, Double>> pointsData = FXCollections.observableArrayList();
 
         //loops through DataPoint object and adds data to series
-        for(int i = startRank; i < endRank; i++) {
-            pointsData.add(new XYChart.Data<>((double) i, sorter.addSort(GraphType.BYPOINTS, scraper.get(i))));
+        for(int i = startRank - 1; i < endRank; i++) {
+            System.out.println(scraper.get(i).getPlayerName());
+            pointsData.add(new XYChart.Data<>((double) i + 1, sorter.addSort(GraphType.BYPOINTS, scraper.get(i))));
 
             
         }
@@ -372,8 +373,8 @@ public class ChartGenerator {
         ObservableList<XYChart.Data<Double, Double>> assistsData = FXCollections.observableArrayList();
 
         //loops through DataPoint object and adds data to series
-        for(int i = startRank; i < endRank; i++) {
-            assistsData.add(new XYChart.Data<>((double) i, sorter.addSort(GraphType.BYASSISTS, scraper.get(i))));
+        for(int i = startRank - 1; i < endRank; i++) {
+            assistsData.add(new XYChart.Data<>((double) i + 1, sorter.addSort(GraphType.BYASSISTS, scraper.get(i))));
         }
 
         LineChart.Series<Double, Double> assists = new LineChart.Series<>("Assists Per Game", assistsData);
@@ -392,8 +393,8 @@ public class ChartGenerator {
 
 
         //loops through DataPoint object and adds data to series
-        for(int i = startRank; i < endRank; i++) {
-            reboundsData.add(new XYChart.Data<>((double) i, sorter.addSort(GraphType.BYREBOUNDS, scraper.get(i))));
+        for(int i = startRank - 1; i < endRank; i++) {
+            reboundsData.add(new XYChart.Data<>((double) i + 1, sorter.addSort(GraphType.BYREBOUNDS, scraper.get(i))));
         }
 
         LineChart.Series<Double, Double> rebounds = new LineChart.Series<>("Rebounds Per Game", reboundsData);
@@ -412,8 +413,8 @@ public class ChartGenerator {
 
         //loops through DataPoint object and adds data to series
 
-        for(int i = startRank; i < endRank; i++) {
-            winshareSeries.add(new XYChart.Data<>((double) i, sorter.addSort(GraphType.BYWINSHARES, scraper.get(i))));
+        for(int i = startRank - 1; i < endRank; i++) {
+            winshareSeries.add(new XYChart.Data<>((double) i + 1, sorter.addSort(GraphType.BYWINSHARES, scraper.get(i))));
         }
 
         LineChart.Series<Double, Double> winshares = new LineChart.Series<>("Total Win Shares", winshareSeries);
